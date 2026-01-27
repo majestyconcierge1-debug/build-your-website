@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import PropertySearch from "@/components/PropertySearch";
 import Features from "@/components/Features";
 import CTA from "@/components/CTA";
 import Footer from "@/components/Footer";
@@ -10,6 +11,7 @@ const Index = () => {
       <Navbar />
       <main>
         <Hero />
+        <PropertySearch />
         <Features />
         <CTA />
       </main>
