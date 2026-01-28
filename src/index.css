@@ -2,97 +2,99 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
 
-/* Majesty Concierge Luxury Design System */
+/* Majesty Concierge - Midnight Blue & Gold Luxury Design System */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 8%;
+    /* Midnight Blue & Gold Color Palette */
+    --background: 213 33% 17%; /* #1E2A3A - Midnight Blue */
+    --foreground: 45 50% 96%; /* Cream White */
 
-    --card: 0 0% 98%;
-    --card-foreground: 0 0% 8%;
+    --card: 213 30% 20%;
+    --card-foreground: 45 50% 96%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 8%;
+    --popover: 213 30% 15%;
+    --popover-foreground: 45 50% 96%;
 
-    --primary: 0 0% 8%;
-    --primary-foreground: 0 0% 98%;
+    --primary: 43 76% 52%; /* #D4AF37 - Light Gold */
+    --primary-foreground: 213 33% 12%;
 
-    --secondary: 40 20% 96%;
-    --secondary-foreground: 0 0% 8%;
+    --secondary: 213 25% 25%;
+    --secondary-foreground: 45 50% 96%;
 
-    --muted: 40 15% 94%;
-    --muted-foreground: 0 0% 45%;
+    --muted: 213 25% 30%;
+    --muted-foreground: 213 15% 65%;
 
-    --accent: 43 74% 49%;
-    --accent-foreground: 0 0% 8%;
+    --accent: 43 76% 52%; /* Light Gold */
+    --accent-foreground: 213 33% 12%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive-foreground: 45 50% 96%;
 
-    --border: 40 15% 88%;
-    --input: 40 15% 88%;
-    --ring: 43 74% 49%;
+    --border: 213 20% 30%;
+    --input: 213 20% 30%;
+    --ring: 43 76% 52%;
 
     --radius: 0.25rem;
 
     /* Custom luxury tokens */
-    --gold: 43 74% 49%;
-    --gold-light: 43 74% 65%;
-    --gold-dark: 43 74% 35%;
-    --cream: 40 30% 96%;
-    --charcoal: 0 0% 15%;
-    --warm-white: 40 20% 98%;
+    --gold: 43 76% 52%;
+    --gold-light: 43 76% 65%;
+    --gold-dark: 43 76% 40%;
+    --midnight: 213 33% 17%;
+    --midnight-light: 213 30% 25%;
+    --midnight-dark: 213 35% 10%;
+    --cream: 45 50% 96%;
 
-    --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 0 0% 8%;
-    --sidebar-primary: 43 74% 49%;
-    --sidebar-primary-foreground: 0 0% 8%;
-    --sidebar-accent: 40 20% 96%;
-    --sidebar-accent-foreground: 0 0% 8%;
-    --sidebar-border: 40 15% 88%;
-    --sidebar-ring: 43 74% 49%;
+    --sidebar-background: 213 33% 12%;
+    --sidebar-foreground: 45 50% 96%;
+    --sidebar-primary: 43 76% 52%;
+    --sidebar-primary-foreground: 213 33% 12%;
+    --sidebar-accent: 213 25% 25%;
+    --sidebar-accent-foreground: 45 50% 96%;
+    --sidebar-border: 213 20% 25%;
+    --sidebar-ring: 43 76% 52%;
   }
 
-  .dark {
-    --background: 0 0% 5%;
-    --foreground: 40 20% 96%;
+  .light {
+    --background: 45 30% 97%;
+    --foreground: 213 33% 17%;
 
-    --card: 0 0% 8%;
-    --card-foreground: 40 20% 96%;
+    --card: 0 0% 100%;
+    --card-foreground: 213 33% 17%;
 
-    --popover: 0 0% 8%;
-    --popover-foreground: 40 20% 96%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 213 33% 17%;
 
-    --primary: 40 20% 96%;
-    --primary-foreground: 0 0% 8%;
+    --primary: 213 33% 17%; /* Midnight Blue as primary in light mode */
+    --primary-foreground: 45 50% 96%;
 
-    --secondary: 0 0% 12%;
-    --secondary-foreground: 40 20% 96%;
+    --secondary: 45 25% 92%;
+    --secondary-foreground: 213 33% 17%;
 
-    --muted: 0 0% 15%;
-    --muted-foreground: 40 10% 60%;
+    --muted: 45 20% 90%;
+    --muted-foreground: 213 20% 45%;
 
-    --accent: 43 74% 49%;
-    --accent-foreground: 0 0% 8%;
+    --accent: 43 76% 52%; /* Gold stays gold */
+    --accent-foreground: 213 33% 17%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 40 20% 96%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 45 50% 96%;
 
-    --border: 0 0% 18%;
-    --input: 0 0% 18%;
-    --ring: 43 74% 49%;
+    --border: 213 15% 85%;
+    --input: 213 15% 85%;
+    --ring: 43 76% 52%;
 
-    --sidebar-background: 0 0% 5%;
-    --sidebar-foreground: 40 20% 96%;
-    --sidebar-primary: 43 74% 49%;
-    --sidebar-primary-foreground: 0 0% 8%;
-    --sidebar-accent: 0 0% 12%;
-    --sidebar-accent-foreground: 40 20% 96%;
-    --sidebar-border: 0 0% 18%;
-    --sidebar-ring: 43 74% 49%;
+    --sidebar-background: 213 33% 17%;
+    --sidebar-foreground: 45 50% 96%;
+    --sidebar-primary: 43 76% 52%;
+    --sidebar-primary-foreground: 213 33% 12%;
+    --sidebar-accent: 213 25% 25%;
+    --sidebar-accent-foreground: 45 50% 96%;
+    --sidebar-border: 213 20% 25%;
+    --sidebar-ring: 43 76% 52%;
   }
 }
 
@@ -111,15 +113,15 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-family: 'Playfair Display', Georgia, serif;
     font-weight: 500;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.01em;
   }
 }
 
 @layer utilities {
   .font-display {
-    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-family: 'Playfair Display', Georgia, serif;
   }
 
   .font-body {
@@ -138,8 +140,20 @@
     border-color: hsl(var(--accent));
   }
 
+  .text-midnight {
+    color: hsl(var(--midnight));
+  }
+
+  .bg-midnight {
+    background-color: hsl(var(--midnight));
+  }
+
   .luxury-gradient {
-    background: linear-gradient(135deg, hsl(var(--accent)) 0%, hsl(43 74% 35%) 100%);
+    background: linear-gradient(135deg, hsl(var(--accent)) 0%, hsl(var(--gold-dark)) 100%);
+  }
+
+  .midnight-gradient {
+    background: linear-gradient(180deg, hsl(var(--midnight)) 0%, hsl(var(--midnight-dark)) 100%);
   }
 
   .glass-effect {
@@ -149,20 +163,24 @@
   .gold-shimmer {
     background: linear-gradient(
       90deg,
-      hsl(43 74% 49%) 0%,
-      hsl(43 74% 65%) 50%,
-      hsl(43 74% 49%) 100%
+      hsl(43 76% 52%) 0%,
+      hsl(43 76% 65%) 50%,
+      hsl(43 76% 52%) 100%
     );
     background-size: 200% 100%;
     animation: shimmer 3s ease-in-out infinite;
   }
 
   .luxury-shadow {
-    box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.3);
   }
 
   .luxury-shadow-lg {
-    box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.4);
+  }
+
+  .gold-glow {
+    box-shadow: 0 0 40px rgba(212, 175, 55, 0.3);
   }
 }
 
@@ -208,6 +226,15 @@
   }
 }
 
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
 .animate-fade-in {
   animation: fadeIn 0.8s ease-out forwards;
 }
@@ -220,13 +247,17 @@
   animation: scaleIn 0.6s ease-out forwards;
 }
 
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: hsl(var(--muted));
+  background: hsl(var(--midnight-dark));
 }
 
 ::-webkit-scrollbar-thumb {
@@ -235,5 +266,11 @@
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(43 74% 35%);
+  background: hsl(var(--gold-dark));
+}
+
+/* Selection color */
+::selection {
+  background: hsl(var(--accent) / 0.3);
+  color: hsl(var(--foreground));
 }

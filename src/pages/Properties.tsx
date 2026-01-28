@@ -6,6 +6,7 @@ import PropertySearch from "@/components/PropertySearch";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { MapPin, Bed, Square, ArrowRight } from "lucide-react";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 interface Property {
   id: string;
@@ -13,6 +14,7 @@ interface Property {
   description: string | null;
   location: string;
   city: string;
+  country: string;
   price: number;
   status: string;
   property_type: string;
@@ -26,6 +28,7 @@ const Properties = () => {
   const [searchParams] = useSearchParams();
   const [properties, setProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
+  const { t, language } = useLanguage();
 
   useEffect(() => {
     const fetchProperties = async () => {
@@ -34,6 +37,7 @@ const Properties = () => {
 
       const status = searchParams.get("status");
       const propertyType = searchParams.get("propertyType");
+      const country = searchParams.get("country");
       const city = searchParams.get("city");
       const bedrooms = searchParams.get("bedrooms");
       const maxPrice = searchParams.get("maxPrice");
@@ -42,10 +46,10 @@ const Properties = () => {
         query = query.eq("status", status);
       }
       if (propertyType && propertyType !== "all") {
-        const validTypes = ["apartment_rent", "apartment_sale", "cannes_congress", "penthouse", "villa_rent", "villa_sale"] as const;
-        if (validTypes.includes(propertyType as typeof validTypes[number])) {
-          query = query.eq("property_type", propertyType as typeof validTypes[number]);
-        }
+        query = query.eq("property_type", propertyType as "apartment_rent" | "apartment_sale" | "penthouse_rent" | "penthouse_sale" | "villa_rent" | "villa_sale" | "riad_rent" | "riad_sale");
+      }
+      if (country && country !== "all") {
+        query = query.ilike("country", `%${country}%`);
       }
       if (city && city !== "all") {
         query = query.ilike("city", `%${city}%`);
@@ -76,19 +80,21 @@ const Properties = () => {
       currency: "EUR",
       maximumFractionDigits: 0,
     }).format(price);
-    return status === "for_rent" ? `${formatted}/month` : formatted;
+    return status === "for_rent" ? `${formatted}${t.properties.perMonth}` : formatted;
   };
 
   const formatPropertyType = (type: string) => {
-    const types: Record<string, string> = {
-      apartment_rent: "Apartment",
-      apartment_sale: "Apartment",
-      cannes_congress: "Cannes Congress",
-      penthouse: "Penthouse",
-      villa_rent: "Villa",
-      villa_sale: "Villa",
+    const types: Record<string, { en: string; fr: string }> = {
+      apartment_rent: { en: "Apartment", fr: "Appartement" },
+      apartment_sale: { en: "Apartment", fr: "Appartement" },
+      penthouse_rent: { en: "Penthouse", fr: "Penthouse" },
+      penthouse_sale: { en: "Penthouse", fr: "Penthouse" },
+      villa_rent: { en: "Villa", fr: "Villa" },
+      villa_sale: { en: "Villa", fr: "Villa" },
+      riad_rent: { en: "Riad", fr: "Riad" },
+      riad_sale: { en: "Riad", fr: "Riad" },
     };
-    return types[type] || type;
+    return types[type]?.[language] || type;
   };
 
   return (
@@ -103,19 +109,19 @@ const Properties = () => {
               alt="Luxury property"
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-black/60" />
+            <div className="absolute inset-0 bg-midnight/80" />
           </div>
-          <div className="relative z-10 container px-4 md:px-6 text-center text-white">
+          <div className="relative z-10 container px-4 md:px-6 text-center text-foreground">
             <div className="inline-flex items-center gap-3 text-accent tracking-[0.3em] text-sm font-medium uppercase mb-6">
               <span className="w-8 h-px bg-accent" />
-              Exclusive Listings
+              {language === 'fr' ? 'Propriétés Exclusives' : 'Exclusive Listings'}
               <span className="w-8 h-px bg-accent" />
             </div>
             <h1 className="font-display text-4xl md:text-6xl lg:text-7xl mb-6">
-              Luxury Properties
+              {t.properties.title}
             </h1>
-            <p className="text-xl text-white/80 max-w-2xl mx-auto">
-              Discover exceptional properties on the French Riviera, Tunisia, and beyond.
+            <p className="text-xl text-foreground/80 max-w-2xl mx-auto">
+              {t.properties.subtitle}
             </p>
           </div>
         </section>
@@ -124,27 +130,31 @@ const Properties = () => {
         <PropertySearch />
 
         {/* Properties Grid */}
-        <section className="py-24">
+        <section className="py-24 bg-secondary/30">
           <div className="container px-4 md:px-6">
             {loading ? (
               <div className="text-center py-12">
-                <p className="text-muted-foreground">Loading properties...</p>
+                <p className="text-muted-foreground">{t.common.loading}</p>
               </div>
             ) : properties.length === 0 ? (
               <div className="text-center py-12">
-                <h3 className="font-display text-2xl mb-4">No Properties Found</h3>
+                <h3 className="font-display text-2xl mb-4">{t.properties.noResults}</h3>
                 <p className="text-muted-foreground mb-8">
-                  We couldn't find any properties matching your criteria. Please try adjusting your filters or contact us for personalized assistance.
+                  {language === 'fr' 
+                    ? 'Nous n\'avons trouvé aucune propriété correspondant à vos critères. Contactez-nous pour une assistance personnalisée.'
+                    : 'We couldn\'t find any properties matching your criteria. Contact us for personalized assistance.'}
                 </p>
                 <Link to="/contact">
-                  <Button variant="luxury">Contact Us</Button>
+                  <Button variant="luxury">{t.cta.button}</Button>
                 </Link>
               </div>
             ) : (
               <>
                 <div className="mb-8">
                   <p className="text-muted-foreground">
-                    {properties.length} {properties.length === 1 ? "property" : "properties"} found
+                    {properties.length} {properties.length === 1 
+                      ? (language === 'fr' ? 'propriété trouvée' : 'property found') 
+                      : (language === 'fr' ? 'propriétés trouvées' : 'properties found')}
                   </p>
                 </div>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -156,19 +166,19 @@ const Properties = () => {
                       {/* Image */}
                       <div className="relative h-64 overflow-hidden">
                         <img
-                          src={property.images[0] || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80"}
+                          src={property.images?.[0] || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80"}
                           alt={property.title}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                         />
                         <div className="absolute top-4 left-4">
                           <span className="px-3 py-1 bg-accent text-accent-foreground text-xs font-medium uppercase tracking-wide">
-                            {property.status === "for_rent" ? "For Rent" : "For Sale"}
+                            {property.status === "for_rent" ? t.search.forRent : t.search.forSale}
                           </span>
                         </div>
                         {property.featured && (
                           <div className="absolute top-4 right-4">
                             <span className="px-3 py-1 bg-foreground text-background text-xs font-medium uppercase tracking-wide">
-                              Featured
+                              {t.properties.featured}
                             </span>
                           </div>
                         )}
@@ -187,18 +197,18 @@ const Properties = () => {
 
                         <div className="flex items-center gap-2 text-muted-foreground text-sm">
                           <MapPin className="w-4 h-4" />
-                          <span>{property.city}, {property.location}</span>
+                          <span>{property.city}, {property.country}</span>
                         </div>
 
                         <div className="flex items-center gap-6 text-sm">
                           <div className="flex items-center gap-2">
                             <Bed className="w-4 h-4 text-muted-foreground" />
-                            <span>{property.bedrooms} Beds</span>
+                            <span>{property.bedrooms} {t.properties.beds}</span>
                           </div>
                           {property.size_sqm && (
                             <div className="flex items-center gap-2">
                               <Square className="w-4 h-4 text-muted-foreground" />
-                              <span>{property.size_sqm} m²</span>
+                              <span>{property.size_sqm} {t.properties.sqm}</span>
                             </div>
                           )}
                         </div>
@@ -209,7 +219,7 @@ const Properties = () => {
                           </span>
                           <Link to={`/properties/${property.id}`}>
                             <Button variant="ghost" size="sm" className="gap-2">
-                              Details
+                              {t.properties.viewDetails}
                               <ArrowRight className="w-4 h-4" />
                             </Button>
                           </Link>

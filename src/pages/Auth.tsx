@@ -8,6 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { z } from "zod";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 const authSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -16,6 +17,7 @@ const authSchema = z.object({
 });
 
 const Auth = () => {
+  const { t, language } = useLanguage();
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -58,16 +60,16 @@ const Auth = () => {
         const { error } = await signIn(email, password);
         if (error) {
           toast({
-            title: "Sign in failed",
+            title: language === 'fr' ? "Échec de connexion" : "Sign in failed",
             description: error.message === "Invalid login credentials" 
-              ? "Invalid email or password. Please try again."
+              ? (language === 'fr' ? "Email ou mot de passe invalide." : "Invalid email or password. Please try again.")
               : error.message,
             variant: "destructive",
           });
         } else {
           toast({
-            title: "Welcome back",
-            description: "You have successfully signed in.",
+            title: language === 'fr' ? "Bienvenue" : "Welcome back",
+            description: language === 'fr' ? "Connexion réussie." : "You have successfully signed in.",
           });
           navigate("/");
         }
@@ -75,16 +77,16 @@ const Auth = () => {
         const { error } = await signUp(email, password, fullName);
         if (error) {
           toast({
-            title: "Sign up failed",
+            title: language === 'fr' ? "Échec d'inscription" : "Sign up failed",
             description: error.message.includes("already registered")
-              ? "This email is already registered. Please sign in instead."
+              ? (language === 'fr' ? "Cet email est déjà enregistré." : "This email is already registered. Please sign in instead.")
               : error.message,
             variant: "destructive",
           });
         } else {
           toast({
-            title: "Account created",
-            description: "Welcome to Majesty Concierge!",
+            title: language === 'fr' ? "Compte créé" : "Account created",
+            description: language === 'fr' ? "Bienvenue chez Majesty Concierge!" : "Welcome to Majesty Concierge!",
           });
           navigate("/");
         }
@@ -105,43 +107,50 @@ const Auth = () => {
               <div className="text-center mb-10 space-y-4">
                 <div className="inline-flex items-center gap-3 text-accent tracking-[0.3em] text-sm font-medium uppercase">
                   <span className="w-8 h-px bg-accent" />
-                  Member Area
+                  {language === 'fr' ? 'Espace Membre' : 'Member Area'}
                   <span className="w-8 h-px bg-accent" />
                 </div>
                 <h1 className="font-display text-3xl md:text-4xl">
-                  {isLogin ? "Welcome Back" : "Join Majesty"}
+                  {isLogin 
+                    ? (language === 'fr' ? "Bienvenue" : "Welcome Back")
+                    : (language === 'fr' ? "Rejoignez Majesty" : "Join Majesty")}
                 </h1>
                 <p className="text-muted-foreground">
                   {isLogin 
-                    ? "Sign in to access exclusive properties and services." 
-                    : "Create an account to unlock exclusive benefits."}
+                    ? (language === 'fr' 
+                        ? "Connectez-vous pour accéder aux propriétés et services exclusifs." 
+                        : "Sign in to access exclusive properties and services.")
+                    : (language === 'fr'
+                        ? "Créez un compte pour débloquer des avantages exclusifs."
+                        : "Create an account to unlock exclusive benefits.")}
                 </p>
               </div>
 
               {/* Form */}
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6 bg-card p-8 border border-border">
                 {!isLogin && (
                   <div className="space-y-2">
-                    <Label htmlFor="fullName">Full Name</Label>
+                    <Label htmlFor="fullName">{t.auth.fullName}</Label>
                     <Input
                       id="fullName"
                       type="text"
-                      placeholder="Your full name"
+                      placeholder={t.auth.fullName}
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
+                      className="bg-background"
                     />
                   </div>
                 )}
 
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="email">{t.auth.email}</Label>
                   <Input
                     id="email"
                     type="email"
                     placeholder="your@email.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className={errors.email ? "border-destructive" : ""}
+                    className={`bg-background ${errors.email ? "border-destructive" : ""}`}
                   />
                   {errors.email && (
                     <p className="text-sm text-destructive">{errors.email}</p>
@@ -149,14 +158,14 @@ const Auth = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="password">{t.auth.password}</Label>
                   <Input
                     id="password"
                     type="password"
                     placeholder="••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className={errors.password ? "border-destructive" : ""}
+                    className={`bg-background ${errors.password ? "border-destructive" : ""}`}
                   />
                   {errors.password && (
                     <p className="text-sm text-destructive">{errors.password}</p>
@@ -169,20 +178,20 @@ const Auth = () => {
                   className="w-full"
                   disabled={loading}
                 >
-                  {loading ? "Please wait..." : isLogin ? "Sign In" : "Create Account"}
+                  {loading ? t.common.loading : (isLogin ? t.auth.signInButton : t.auth.signUpButton)}
                 </Button>
               </form>
 
               {/* Toggle */}
               <div className="mt-8 text-center">
                 <p className="text-muted-foreground text-sm">
-                  {isLogin ? "Don't have an account?" : "Already have an account?"}
+                  {isLogin ? t.auth.noAccount : t.auth.hasAccount}
                   <button
                     type="button"
                     onClick={() => setIsLogin(!isLogin)}
                     className="ml-2 text-accent hover:underline font-medium"
                   >
-                    {isLogin ? "Sign up" : "Sign in"}
+                    {isLogin ? t.auth.signUp : t.auth.signIn}
                   </button>
                 </p>
               </div>
