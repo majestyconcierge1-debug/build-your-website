@@ -89,6 +89,7 @@ export type Database = {
         Row: {
           bedrooms: number
           city: string
+          country: string
           created_at: string
           description: string | null
           featured: boolean | null
@@ -105,6 +106,7 @@ export type Database = {
         Insert: {
           bedrooms?: number
           city: string
+          country?: string
           created_at?: string
           description?: string | null
           featured?: boolean | null
@@ -112,7 +114,7 @@ export type Database = {
           images?: string[] | null
           location: string
           price: number
-          property_type: Database["public"]["Enums"]["property_type"]
+          property_type?: Database["public"]["Enums"]["property_type"]
           size_sqm?: number | null
           status: Database["public"]["Enums"]["property_status"]
           title: string
@@ -121,6 +123,7 @@ export type Database = {
         Update: {
           bedrooms?: number
           city?: string
+          country?: string
           created_at?: string
           description?: string | null
           featured?: boolean | null
@@ -176,10 +179,12 @@ export type Database = {
       property_type:
         | "apartment_rent"
         | "apartment_sale"
-        | "cannes_congress"
-        | "penthouse"
+        | "penthouse_rent"
+        | "penthouse_sale"
         | "villa_rent"
         | "villa_sale"
+        | "riad_rent"
+        | "riad_sale"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -312,10 +317,12 @@ export const Constants = {
       property_type: [
         "apartment_rent",
         "apartment_sale",
-        "cannes_congress",
-        "penthouse",
+        "penthouse_rent",
+        "penthouse_sale",
         "villa_rent",
         "villa_sale",
+        "riad_rent",
+        "riad_sale",
       ],
     },
   },

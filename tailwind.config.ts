@@ -15,7 +15,7 @@ export default {
     extend: {
       fontFamily: {
         sans: ['Montserrat', 'system-ui', 'sans-serif'],
-        display: ['Cormorant Garamond', 'Georgia', 'serif'],
+        display: ['Playfair Display', 'Georgia', 'serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -52,9 +52,14 @@ export default {
           foreground: "hsl(var(--card-foreground))",
         },
         gold: {
-          DEFAULT: "hsl(var(--accent))",
-          light: "hsl(43 74% 65%)",
-          dark: "hsl(43 74% 35%)",
+          DEFAULT: "hsl(43 76% 52%)",
+          light: "hsl(43 76% 65%)",
+          dark: "hsl(43 76% 40%)",
+        },
+        midnight: {
+          DEFAULT: "hsl(213 33% 17%)",
+          light: "hsl(213 30% 25%)",
+          dark: "hsl(213 35% 10%)",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
@@ -93,6 +98,10 @@ export default {
           "0%": { opacity: "0", transform: "scale(0.95)" },
           "100%": { opacity: "1", transform: "scale(1)" },
         },
+        "pulse-gold": {
+          "0%, 100%": { boxShadow: "0 0 0 0 rgba(212, 175, 55, 0.4)" },
+          "50%": { boxShadow: "0 0 20px 10px rgba(212, 175, 55, 0)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -100,6 +109,7 @@ export default {
         "fade-in": "fade-in 0.6s ease-out forwards",
         "slide-up": "slide-up 0.8s ease-out forwards",
         "scale-in": "scale-in 0.5s ease-out forwards",
+        "pulse-gold": "pulse-gold 2s ease-in-out infinite",
       },
     },
   },
