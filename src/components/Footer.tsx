@@ -1,6 +1,20 @@
 import { Link } from "react-router-dom";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { Facebook, Instagram, Youtube } from "lucide-react";
+
+// TikTok icon (not in lucide-react)
+const TikTokIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+  >
+    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
+  </svg>
+);
 
 const Footer = () => {
   const { t, language } = useLanguage();
@@ -16,6 +30,13 @@ const Footer = () => {
   const services = language === 'fr' 
     ? ["Conciergerie Privée", "Voyages de Luxe", "Immobilier", "Gestion Locative", "Services Entreprise"]
     : ["Private Concierge", "Luxury Travel", "Real Estate", "Property Management", "Corporate Services"];
+
+  const socialLinks = [
+    { icon: Facebook, href: "#", label: "Facebook" },
+    { icon: Instagram, href: "#", label: "Instagram" },
+    { icon: TikTokIcon, href: "#", label: "TikTok" },
+    { icon: Youtube, href: "#", label: "YouTube" },
+  ];
 
   return (
     <footer className="bg-midnight text-foreground py-20">
@@ -34,6 +55,25 @@ const Footer = () => {
             <p className="text-muted-foreground text-sm leading-relaxed">
               {t.footer.aboutText}
             </p>
+            {/* Social Links */}
+            <div className="flex gap-4">
+              {socialLinks.map((social, index) => (
+                <a
+                  key={index}
+                  href={social.href}
+                  className="w-10 h-10 border border-border flex items-center justify-center text-muted-foreground hover:text-accent hover:border-accent transition-colors"
+                  aria-label={social.label}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {typeof social.icon === 'function' && social.label === 'TikTok' ? (
+                    <TikTokIcon />
+                  ) : (
+                    <social.icon className="w-5 h-5" />
+                  )}
+                </a>
+              ))}
+            </div>
           </div>
 
           {/* Quick Links */}
@@ -78,10 +118,10 @@ const Footer = () => {
               <li className="flex items-center gap-3">
                 <Mail className="w-4 h-4 text-accent flex-shrink-0" />
                 <a
-                  href="mailto:contact@majestyconcierge.com"
+                  href="mailto:majestyconcierge1@gmail.com"
                   className="text-sm text-muted-foreground hover:text-accent transition-colors"
                 >
-                  contact@majestyconcierge.com
+                  majestyconcierge1@gmail.com
                 </a>
               </li>
               <li className="flex items-center gap-3">
@@ -103,11 +143,8 @@ const Footer = () => {
             © {new Date().getFullYear()} Majesty Concierge LLC. {t.footer.rights}
           </p>
           <div className="flex gap-6">
-            <Link to="/privacy" className="text-sm text-muted-foreground hover:text-accent transition-colors">
-              {language === 'fr' ? 'Politique de Confidentialité' : 'Privacy Policy'}
-            </Link>
-            <Link to="/terms" className="text-sm text-muted-foreground hover:text-accent transition-colors">
-              {language === 'fr' ? 'Conditions d\'Utilisation' : 'Terms of Service'}
+            <Link to="/contact" className="text-sm text-muted-foreground hover:text-accent transition-colors">
+              {t.nav.contact}
             </Link>
           </div>
         </div>

@@ -59,6 +59,7 @@ export const translations = {
       uae: 'United Arab Emirates',
       tunisia: 'Tunisia',
       italy: 'Italy',
+      algeria: 'Algeria',
     },
     // Properties Section
     properties: {
@@ -71,6 +72,10 @@ export const translations = {
       beds: 'beds',
       sqm: 'sqm',
       noResults: 'No properties found matching your criteria.',
+      call: 'Call',
+      email: 'Email',
+      callAgency: 'Call Agency',
+      sendEmail: 'Send Email',
     },
     // Features Section
     features: {
@@ -245,6 +250,7 @@ export const translations = {
       uae: 'Émirats Arabes Unis',
       tunisia: 'Tunisie',
       italy: 'Italie',
+      algeria: 'Algérie',
     },
     // Properties Section
     properties: {
@@ -257,6 +263,10 @@ export const translations = {
       beds: 'chambres',
       sqm: 'm²',
       noResults: 'Aucune propriété ne correspond à vos critères.',
+      call: 'Appeler',
+      email: 'Email',
+      callAgency: 'Appeler l\'agence',
+      sendEmail: 'Envoyer un Email',
     },
     // Features Section
     features: {

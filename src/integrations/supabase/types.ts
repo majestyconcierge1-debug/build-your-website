@@ -14,6 +14,44 @@ export type Database = {
   }
   public: {
     Tables: {
+      comments: {
+        Row: {
+          approved: boolean | null
+          article_id: string
+          author_email: string
+          author_name: string
+          content: string
+          created_at: string
+          id: string
+        }
+        Insert: {
+          approved?: boolean | null
+          article_id: string
+          author_email: string
+          author_name: string
+          content: string
+          created_at?: string
+          id?: string
+        }
+        Update: {
+          approved?: boolean | null
+          article_id?: string
+          author_email?: string
+          author_name?: string
+          content?: string
+          created_at?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "comments_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "news_articles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       inquiries: {
         Row: {
           created_at: string
@@ -54,6 +92,48 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      news_articles: {
+        Row: {
+          content: string
+          content_fr: string | null
+          created_at: string
+          excerpt: string | null
+          excerpt_fr: string | null
+          id: string
+          image_url: string | null
+          published: boolean | null
+          title: string
+          title_fr: string | null
+          updated_at: string
+        }
+        Insert: {
+          content: string
+          content_fr?: string | null
+          created_at?: string
+          excerpt?: string | null
+          excerpt_fr?: string | null
+          id?: string
+          image_url?: string | null
+          published?: boolean | null
+          title: string
+          title_fr?: string | null
+          updated_at?: string
+        }
+        Update: {
+          content?: string
+          content_fr?: string | null
+          created_at?: string
+          excerpt?: string | null
+          excerpt_fr?: string | null
+          id?: string
+          image_url?: string | null
+          published?: boolean | null
+          title?: string
+          title_fr?: string | null
+          updated_at?: string
+        }
+        Relationships: []
       }
       profiles: {
         Row: {
