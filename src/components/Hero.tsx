@@ -7,18 +7,27 @@ import { useLanguage } from "@/i18n/LanguageContext";
 const heroSlides = [
   {
     image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1920&q=80",
-    title: { en: "Luxury Villas", fr: "Villas de Luxe" },
-    subtitle: { en: "French Riviera", fr: "Côte d'Azur" },
+    title: { en: "Exclusive Properties", fr: "Propriétés Exclusives" },
   },
   {
-    image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=80",
-    title: { en: "Exclusive Penthouses", fr: "Penthouses Exclusifs" },
-    subtitle: { en: "Dubai & UAE", fr: "Dubaï & EAU" },
+    image: "https://images.unsplash.com/photo-1540946485063-a40da27545f8?w=1920&q=80",
+    title: { en: "Luxury Yachts", fr: "Yachts de Luxe" },
   },
   {
-    image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1920&q=80",
-    title: { en: "Mediterranean Living", fr: "Art de Vivre Méditerranéen" },
-    subtitle: { en: "Italy & Tunisia", fr: "Italie & Tunisie" },
+    image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=1920&q=80",
+    title: { en: "Premium Limousines", fr: "Limousines Premium" },
+  },
+  {
+    image: "https://images.unsplash.com/photo-1551524559-8af4e6624178?w=1920&q=80",
+    title: { en: "Ski Resorts", fr: "Stations de Ski" },
+  },
+  {
+    image: "https://images.unsplash.com/photo-1519741497674-611481863552?w=1920&q=80",
+    title: { en: "Luxury Weddings", fr: "Mariages de Luxe" },
+  },
+  {
+    image: "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=1920&q=80",
+    title: { en: "Wine Experiences", fr: "Expériences Vinicoles" },
   },
 ];
 
@@ -29,7 +38,7 @@ const Hero = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
-    }, 6000);
+    }, 5000);
     return () => clearInterval(timer);
   }, []);
 
@@ -61,11 +70,11 @@ const Hero = () => {
           {/* Badge */}
           <div className="inline-flex items-center gap-3 text-accent tracking-[0.4em] text-xs font-medium uppercase">
             <span className="w-12 h-px bg-accent" />
-            {heroSlides[currentSlide].subtitle[language]}
+            Majesty Concierge
             <span className="w-12 h-px bg-accent" />
           </div>
 
-          {/* Title */}
+          {/* Title - Always shows "Exclusive Properties" first, then carousel title */}
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl text-foreground leading-tight">
             {heroSlides[currentSlide].title[language]}
           </h1>

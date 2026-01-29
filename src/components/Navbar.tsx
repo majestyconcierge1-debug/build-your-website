@@ -1,16 +1,12 @@
-import { Button } from "@/components/ui/button";
-import { Menu, X, User, Globe } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "@/hooks/useAuth";
+import { Link } from "react-router-dom";
 import { useLanguage } from "@/i18n/LanguageContext";
 import LanguageSwitcher from "./LanguageSwitcher";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { user, signOut, isAdmin } = useAuth();
   const { t } = useLanguage();
-  const navigate = useNavigate();
 
   const navLinks = [
     { label: t.nav.propertyManagement, href: "/property-management" },
@@ -19,11 +15,6 @@ const Navbar = () => {
     { label: t.nav.news, href: "/news" },
     { label: t.nav.contact, href: "/contact" },
   ];
-
-  const handleSignOut = async () => {
-    await signOut();
-    navigate("/");
-  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-midnight/95 backdrop-blur-md border-b border-border">
@@ -57,27 +48,6 @@ const Navbar = () => {
           {/* Desktop CTA */}
           <div className="hidden lg:flex items-center gap-4">
             <LanguageSwitcher />
-            {user ? (
-              <>
-                {isAdmin && (
-                  <Link to="/admin">
-                    <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-accent">
-                      {t.nav.admin}
-                    </Button>
-                  </Link>
-                )}
-                <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-accent" onClick={handleSignOut}>
-                  {t.nav.logout}
-                </Button>
-              </>
-            ) : (
-              <Link to="/auth">
-                <Button variant="luxury-outline" size="sm" className="gap-2">
-                  <User className="w-4 h-4" />
-                  {t.nav.login}
-                </Button>
-              </Link>
-            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -108,27 +78,6 @@ const Navbar = () => {
                 <div className="flex justify-center pb-3">
                   <LanguageSwitcher />
                 </div>
-                {user ? (
-                  <>
-                    {isAdmin && (
-                      <Link to="/admin" onClick={() => setIsOpen(false)}>
-                        <Button variant="ghost" className="w-full justify-center">
-                          {t.nav.admin}
-                        </Button>
-                      </Link>
-                    )}
-                    <Button variant="luxury-outline" className="w-full justify-center" onClick={handleSignOut}>
-                      {t.nav.logout}
-                    </Button>
-                  </>
-                ) : (
-                  <Link to="/auth" onClick={() => setIsOpen(false)}>
-                    <Button variant="luxury" className="w-full justify-center gap-2">
-                      <User className="w-4 h-4" />
-                      {t.nav.login}
-                    </Button>
-                  </Link>
-                )}
               </div>
             </div>
           </div>

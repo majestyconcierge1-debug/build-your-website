@@ -3,6 +3,7 @@ export const countries = [
   { value: 'uae', label: { en: 'United Arab Emirates', fr: 'Émirats Arabes Unis' } },
   { value: 'tunisia', label: { en: 'Tunisia', fr: 'Tunisie' } },
   { value: 'italy', label: { en: 'Italy', fr: 'Italie' } },
+  { value: 'algeria', label: { en: 'Algeria', fr: 'Algérie' } },
 ];
 
 export const citiesByCountry: Record<string, Array<{ value: string; label: string }>> = {
@@ -41,6 +42,18 @@ export const citiesByCountry: Record<string, Array<{ value: string; label: strin
     { value: 'fujairah', label: 'Fujairah' },
     { value: 'ras-al-khaimah', label: 'Ras Al Khaimah' },
     { value: 'umm-al-quwain', label: 'Umm Al Quwain' },
+  ],
+  algeria: [
+    { value: 'alger', label: 'Alger' },
+    { value: 'tizi-ouzou', label: 'Tizi Ouzou' },
+    { value: 'bejaia', label: 'Bejaia' },
+    { value: 'boumerdes', label: 'Boumerdès' },
+    { value: 'constantine', label: 'Constantine' },
+    { value: 'oran', label: 'Oran' },
+    { value: 'tlemcen', label: 'Tlemcen' },
+    { value: 'ghardaia', label: 'Ghardaïa' },
+    { value: 'djanet', label: 'Djanet' },
+    { value: 'bouira', label: 'Bouira' },
   ],
 };
 

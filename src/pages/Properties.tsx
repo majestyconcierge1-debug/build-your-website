@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 import PropertySearch from "@/components/PropertySearch";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { MapPin, Bed, Square, ArrowRight } from "lucide-react";
+import { MapPin, Bed, Square, Phone, Mail, MessageCircle, ChevronLeft, ChevronRight, X } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 interface Property {
@@ -28,6 +28,8 @@ const Properties = () => {
   const [searchParams] = useSearchParams();
   const [properties, setProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const { t, language } = useLanguage();
 
   useEffect(() => {
@@ -97,6 +99,35 @@ const Properties = () => {
     return types[type]?.[language] || type;
   };
 
+  const openPropertyModal = (property: Property) => {
+    setSelectedProperty(property);
+    setCurrentImageIndex(0);
+  };
+
+  const closeModal = () => {
+    setSelectedProperty(null);
+    setCurrentImageIndex(0);
+  };
+
+  const nextImage = () => {
+    if (selectedProperty && selectedProperty.images) {
+      setCurrentImageIndex((prev) => (prev + 1) % selectedProperty.images.length);
+    }
+  };
+
+  const prevImage = () => {
+    if (selectedProperty && selectedProperty.images) {
+      setCurrentImageIndex((prev) => (prev - 1 + selectedProperty.images.length) % selectedProperty.images.length);
+    }
+  };
+
+  const getWhatsAppUrl = (property: Property) => {
+    const message = language === 'fr'
+      ? `Bonjour, je suis intéressé(e) par la propriété: ${property.title} à ${property.city}. Pouvez-vous me donner plus d'informations?`
+      : `Hello, I am interested in the property: ${property.title} in ${property.city}. Can you give me more information?`;
+    return `https://wa.me/33767781026?text=${encodeURIComponent(message)}`;
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -164,7 +195,10 @@ const Properties = () => {
                       className="group bg-card border border-border overflow-hidden luxury-shadow hover:luxury-shadow-lg transition-all duration-500"
                     >
                       {/* Image */}
-                      <div className="relative h-64 overflow-hidden">
+                      <div 
+                        className="relative h-64 overflow-hidden cursor-pointer"
+                        onClick={() => openPropertyModal(property)}
+                      >
                         <img
                           src={property.images?.[0] || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80"}
                           alt={property.title}
@@ -179,6 +213,13 @@ const Properties = () => {
                           <div className="absolute top-4 right-4">
                             <span className="px-3 py-1 bg-foreground text-background text-xs font-medium uppercase tracking-wide">
                               {t.properties.featured}
+                            </span>
+                          </div>
+                        )}
+                        {property.images && property.images.length > 1 && (
+                          <div className="absolute bottom-4 right-4">
+                            <span className="px-2 py-1 bg-midnight/70 text-white text-xs">
+                              {property.images.length} {language === 'fr' ? 'photos' : 'photos'}
                             </span>
                           </div>
                         )}
@@ -213,16 +254,31 @@ const Properties = () => {
                           )}
                         </div>
 
-                        <div className="pt-4 border-t border-border flex items-center justify-between">
-                          <span className="font-display text-xl text-accent">
+                        <div className="pt-4 border-t border-border">
+                          <span className="font-display text-xl text-accent block mb-4">
                             {formatPrice(property.price, property.status)}
                           </span>
-                          <Link to={`/properties/${property.id}`}>
-                            <Button variant="ghost" size="sm" className="gap-2">
-                              {t.properties.viewDetails}
-                              <ArrowRight className="w-4 h-4" />
-                            </Button>
-                          </Link>
+                          
+                          {/* Contact CTAs */}
+                          <div className="flex gap-2">
+                            <a href="tel:+33767781026" className="flex-1">
+                              <Button variant="luxury-outline" size="sm" className="w-full gap-2">
+                                <Phone className="w-4 h-4" />
+                                {language === 'fr' ? 'Appeler' : 'Call'}
+                              </Button>
+                            </a>
+                            <a href="mailto:majestyconcierge1@gmail.com" className="flex-1">
+                              <Button variant="luxury-outline" size="sm" className="w-full gap-2">
+                                <Mail className="w-4 h-4" />
+                                Email
+                              </Button>
+                            </a>
+                            <a href={getWhatsAppUrl(property)} target="_blank" rel="noopener noreferrer">
+                              <Button size="sm" className="bg-[#25D366] hover:bg-[#20BD5A] text-white">
+                                <MessageCircle className="w-4 h-4" />
+                              </Button>
+                            </a>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -232,6 +288,119 @@ const Properties = () => {
             )}
           </div>
         </section>
+
+        {/* Property Modal */}
+        {selectedProperty && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-midnight/90 p-4" onClick={closeModal}>
+            <div className="relative max-w-5xl w-full bg-card border border-border max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+              <button
+                onClick={closeModal}
+                className="absolute top-4 right-4 z-10 p-2 bg-midnight/50 hover:bg-midnight text-white transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+
+              {/* Image Gallery */}
+              <div className="relative h-[50vh]">
+                <img
+                  src={selectedProperty.images?.[currentImageIndex] || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=80"}
+                  alt={selectedProperty.title}
+                  className="w-full h-full object-cover"
+                />
+                {selectedProperty.images && selectedProperty.images.length > 1 && (
+                  <>
+                    <button
+                      onClick={prevImage}
+                      className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-midnight/50 hover:bg-midnight text-white transition-colors"
+                    >
+                      <ChevronLeft className="w-6 h-6" />
+                    </button>
+                    <button
+                      onClick={nextImage}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-midnight/50 hover:bg-midnight text-white transition-colors"
+                    >
+                      <ChevronRight className="w-6 h-6" />
+                    </button>
+                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                      {selectedProperty.images.map((_, index) => (
+                        <button
+                          key={index}
+                          onClick={() => setCurrentImageIndex(index)}
+                          className={`w-2 h-2 rounded-full transition-colors ${
+                            index === currentImageIndex ? 'bg-accent' : 'bg-white/50'
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
+
+              {/* Property Details */}
+              <div className="p-8">
+                <div className="flex flex-wrap items-start justify-between gap-4 mb-6">
+                  <div>
+                    <p className="text-accent text-sm font-medium uppercase tracking-wide mb-2">
+                      {formatPropertyType(selectedProperty.property_type)} • {selectedProperty.status === "for_rent" ? t.search.forRent : t.search.forSale}
+                    </p>
+                    <h2 className="font-display text-3xl">{selectedProperty.title}</h2>
+                    <p className="flex items-center gap-2 text-muted-foreground mt-2">
+                      <MapPin className="w-4 h-4" />
+                      {selectedProperty.city}, {selectedProperty.country}
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <span className="font-display text-3xl text-accent">
+                      {formatPrice(selectedProperty.price, selectedProperty.status)}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex gap-6 mb-6 text-sm">
+                  <div className="flex items-center gap-2">
+                    <Bed className="w-5 h-5 text-muted-foreground" />
+                    <span>{selectedProperty.bedrooms} {t.properties.beds}</span>
+                  </div>
+                  {selectedProperty.size_sqm && (
+                    <div className="flex items-center gap-2">
+                      <Square className="w-5 h-5 text-muted-foreground" />
+                      <span>{selectedProperty.size_sqm} {t.properties.sqm}</span>
+                    </div>
+                  )}
+                </div>
+
+                {selectedProperty.description && (
+                  <div className="mb-8">
+                    <h3 className="font-display text-xl mb-4">{language === 'fr' ? 'Description' : 'Description'}</h3>
+                    <p className="text-muted-foreground leading-relaxed">{selectedProperty.description}</p>
+                  </div>
+                )}
+
+                {/* Contact CTAs */}
+                <div className="flex flex-wrap gap-4">
+                  <a href="tel:+33767781026">
+                    <Button variant="luxury" size="lg" className="gap-2">
+                      <Phone className="w-5 h-5" />
+                      {language === 'fr' ? 'Appeler l\'agence' : 'Call Agency'}
+                    </Button>
+                  </a>
+                  <a href="mailto:majestyconcierge1@gmail.com">
+                    <Button variant="luxury-outline" size="lg" className="gap-2">
+                      <Mail className="w-5 h-5" />
+                      {language === 'fr' ? 'Envoyer un Email' : 'Send Email'}
+                    </Button>
+                  </a>
+                  <a href={getWhatsAppUrl(selectedProperty)} target="_blank" rel="noopener noreferrer">
+                    <Button size="lg" className="bg-[#25D366] hover:bg-[#20BD5A] text-white gap-2">
+                      <MessageCircle className="w-5 h-5" />
+                      WhatsApp
+                    </Button>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
       <Footer />
     </div>
