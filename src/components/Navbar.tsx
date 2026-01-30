@@ -1,4 +1,4 @@
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/i18n/LanguageContext";
@@ -6,10 +6,18 @@ import LanguageSwitcher from "./LanguageSwitcher";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { t } = useLanguage();
+  const [propertyDropdownOpen, setPropertyDropdownOpen] = useState(false);
+  const { t, language } = useLanguage();
+
+  const propertyManagementCountries = [
+    { label: "France", href: "/property-management/france" },
+    { label: language === 'fr' ? "Italie" : "Italy", href: "/property-management/italy" },
+    { label: language === 'fr' ? "Tunisie" : "Tunisia", href: "/property-management/tunisia" },
+    { label: language === 'fr' ? "Émirats Arabes Unis" : "United Arab Emirates", href: "/property-management/uae" },
+    { label: language === 'fr' ? "Algérie" : "Algeria", href: "/property-management/algeria" },
+  ];
 
   const navLinks = [
-    { label: t.nav.propertyManagement, href: "/property-management" },
     { label: t.nav.decoration, href: "/decoration" },
     { label: t.nav.concierge, href: "/concierge" },
     { label: t.nav.news, href: "/news" },
@@ -17,7 +25,7 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-midnight/95 backdrop-blur-md border-b border-border">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border">
       <div className="container px-4 md:px-6">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
@@ -34,6 +42,39 @@ const Navbar = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-8">
+            {/* Property Management Dropdown */}
+            <div 
+              className="relative group"
+              onMouseEnter={() => setPropertyDropdownOpen(true)}
+              onMouseLeave={() => setPropertyDropdownOpen(false)}
+            >
+              <button className="flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-accent transition-colors tracking-wide">
+                {t.nav.propertyManagement}
+                <ChevronDown className={`w-4 h-4 transition-transform ${propertyDropdownOpen ? 'rotate-180' : ''}`} />
+              </button>
+              {propertyDropdownOpen && (
+                <div className="absolute top-full left-0 mt-2 w-56 bg-card border border-border shadow-xl animate-fade-in">
+                  <Link
+                    to="/property-management"
+                    className="block px-4 py-3 text-sm text-muted-foreground hover:text-accent hover:bg-secondary/50 transition-colors border-b border-border"
+                    onClick={() => setPropertyDropdownOpen(false)}
+                  >
+                    {language === 'fr' ? 'Tous les Services' : 'All Services'}
+                  </Link>
+                  {propertyManagementCountries.map((country) => (
+                    <Link
+                      key={country.href}
+                      to={country.href}
+                      className="block px-4 py-3 text-sm text-muted-foreground hover:text-accent hover:bg-secondary/50 transition-colors"
+                      onClick={() => setPropertyDropdownOpen(false)}
+                    >
+                      {country.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -64,6 +105,29 @@ const Navbar = () => {
         {isOpen && (
           <div className="lg:hidden py-6 border-t border-border animate-fade-in">
             <div className="flex flex-col gap-4">
+              {/* Property Management with sub-items */}
+              <div className="space-y-2">
+                <Link
+                  to="/property-management"
+                  className="text-sm font-medium text-muted-foreground hover:text-accent transition-colors tracking-wide py-2 block"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {t.nav.propertyManagement}
+                </Link>
+                <div className="pl-4 space-y-2 border-l border-border">
+                  {propertyManagementCountries.map((country) => (
+                    <Link
+                      key={country.href}
+                      to={country.href}
+                      className="text-sm text-muted-foreground hover:text-accent transition-colors block py-1"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      {country.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
               {navLinks.map((link) => (
                 <Link
                   key={link.href}

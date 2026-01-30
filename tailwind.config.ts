@@ -56,10 +56,10 @@ export default {
           light: "hsl(43 76% 65%)",
           dark: "hsl(43 76% 40%)",
         },
-        midnight: {
-          DEFAULT: "hsl(213 33% 17%)",
-          light: "hsl(213 30% 25%)",
-          dark: "hsl(213 35% 10%)",
+        purple: {
+          DEFAULT: "hsl(263 24% 39%)",
+          light: "hsl(263 24% 48%)",
+          dark: "hsl(263 28% 25%)",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",

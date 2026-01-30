@@ -60,7 +60,7 @@ const Hero = () => {
             alt={slide.title[language]}
             className="w-full h-full object-cover scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-midnight/70 via-midnight/50 to-midnight/90" />
+          <div className="absolute inset-0 bg-gradient-to-b from-purple/70 via-purple/50 to-purple/90" />
         </div>
       ))}
 
