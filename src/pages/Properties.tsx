@@ -140,7 +140,7 @@ const Properties = () => {
               alt="Luxury property"
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-midnight/80" />
+            <div className="absolute inset-0 bg-purple/80" />
           </div>
           <div className="relative z-10 container px-4 md:px-6 text-center text-foreground">
             <div className="inline-flex items-center gap-3 text-accent tracking-[0.3em] text-sm font-medium uppercase mb-6">
@@ -218,7 +218,7 @@ const Properties = () => {
                         )}
                         {property.images && property.images.length > 1 && (
                           <div className="absolute bottom-4 right-4">
-                            <span className="px-2 py-1 bg-midnight/70 text-white text-xs">
+                            <span className="px-2 py-1 bg-purple/70 text-white text-xs">
                               {property.images.length} {language === 'fr' ? 'photos' : 'photos'}
                             </span>
                           </div>
@@ -291,11 +291,11 @@ const Properties = () => {
 
         {/* Property Modal */}
         {selectedProperty && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-midnight/90 p-4" onClick={closeModal}>
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-purple/90 p-4" onClick={closeModal}>
             <div className="relative max-w-5xl w-full bg-card border border-border max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
               <button
                 onClick={closeModal}
-                className="absolute top-4 right-4 z-10 p-2 bg-midnight/50 hover:bg-midnight text-white transition-colors"
+                className="absolute top-4 right-4 z-10 p-2 bg-purple/50 hover:bg-purple text-white transition-colors"
               >
                 <X className="w-6 h-6" />
               </button>
@@ -311,13 +311,13 @@ const Properties = () => {
                   <>
                     <button
                       onClick={prevImage}
-                      className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-midnight/50 hover:bg-midnight text-white transition-colors"
+                      className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-purple/50 hover:bg-purple text-white transition-colors"
                     >
                       <ChevronLeft className="w-6 h-6" />
                     </button>
                     <button
                       onClick={nextImage}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-midnight/50 hover:bg-midnight text-white transition-colors"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-purple/50 hover:bg-purple text-white transition-colors"
                     >
                       <ChevronRight className="w-6 h-6" />
                     </button>

@@ -118,7 +118,7 @@ const Decoration = () => {
                       alt={service.title}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-midnight/80 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-purple/80 to-transparent" />
                     <div className="absolute bottom-4 left-4">
                       <div className="w-12 h-12 bg-accent/20 backdrop-blur-sm flex items-center justify-center">
                         <service.icon className="w-6 h-6 text-accent" />

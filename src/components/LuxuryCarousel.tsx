@@ -56,7 +56,7 @@ const LuxuryCarousel = ({
             className="w-full h-full object-cover"
           />
           {overlay && (
-            <div className="absolute inset-0 bg-gradient-to-t from-midnight/80 via-midnight/30 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-purple/80 via-purple/30 to-transparent" />
           )}
           <div className="absolute bottom-8 left-8 right-8 text-left">
             <h3 className="font-display text-2xl md:text-3xl text-foreground mb-2">
@@ -75,14 +75,14 @@ const LuxuryCarousel = ({
         <>
           <button
             onClick={prevSlide}
-            className="absolute left-4 top-1/2 -translate-y-1/2 p-2 border border-foreground/20 bg-midnight/50 hover:border-accent hover:bg-accent/10 transition-all duration-300"
+            className="absolute left-4 top-1/2 -translate-y-1/2 p-2 border border-foreground/20 bg-purple/50 hover:border-accent hover:bg-accent/10 transition-all duration-300"
             aria-label="Previous slide"
           >
             <ChevronLeft className="w-5 h-5 text-foreground" />
           </button>
           <button
             onClick={nextSlide}
-            className="absolute right-4 top-1/2 -translate-y-1/2 p-2 border border-foreground/20 bg-midnight/50 hover:border-accent hover:bg-accent/10 transition-all duration-300"
+            className="absolute right-4 top-1/2 -translate-y-1/2 p-2 border border-foreground/20 bg-purple/50 hover:border-accent hover:bg-accent/10 transition-all duration-300"
             aria-label="Next slide"
           >
             <ChevronRight className="w-5 h-5 text-foreground" />
