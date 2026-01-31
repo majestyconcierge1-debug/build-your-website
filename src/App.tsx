@@ -11,6 +11,7 @@ import Services from "./pages/Services";
 import Contact from "./pages/Contact";
 import Properties from "./pages/Properties";
 import Admin from "./pages/Admin";
+import Auth from "./pages/Auth";
 import PropertyManagement from "./pages/PropertyManagement";
 import PropertyManagementFrance from "./pages/PropertyManagementFrance";
 import PropertyManagementItaly from "./pages/PropertyManagementItaly";
@@ -35,12 +36,14 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Index />} />
+              <Route path="/" element={<Concierge />} />
+              <Route path="/home" element={<Index />} />
               <Route path="/about" element={<About />} />
               <Route path="/services" element={<Services />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/properties" element={<Properties />} />
               <Route path="/admin" element={<Admin />} />
+              <Route path="/auth" element={<Auth />} />
               <Route path="/property-management" element={<PropertyManagement />} />
               <Route path="/property-management/france" element={<PropertyManagementFrance />} />
               <Route path="/property-management/italy" element={<PropertyManagementItaly />} />

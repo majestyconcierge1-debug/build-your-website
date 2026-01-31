@@ -18,9 +18,10 @@ const Navbar = () => {
   ];
 
   const navLinks = [
+    { label: language === 'fr' ? 'Conciergerie' : 'Concierge Services', href: "/" },
+    { label: language === 'fr' ? 'Propriétés' : 'Properties', href: "/properties" },
     { label: t.nav.decoration, href: "/decoration" },
-    { label: t.nav.concierge, href: "/concierge" },
-    { label: t.nav.news, href: "/news" },
+    { label: language === 'fr' ? 'À Propos' : 'About Us', href: "/about" },
     { label: t.nav.contact, href: "/contact" },
   ];
 
@@ -42,6 +43,16 @@ const Navbar = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-8">
+            {navLinks.slice(0, 2).map((link) => (
+              <Link
+                key={link.href}
+                to={link.href}
+                className="text-sm font-medium text-muted-foreground hover:text-accent transition-colors tracking-wide"
+              >
+                {link.label}
+              </Link>
+            ))}
+
             {/* Property Management Dropdown */}
             <div 
               className="relative group"
@@ -75,7 +86,7 @@ const Navbar = () => {
               )}
             </div>
 
-            {navLinks.map((link) => (
+            {navLinks.slice(2).map((link) => (
               <Link
                 key={link.href}
                 to={link.href}
@@ -105,6 +116,17 @@ const Navbar = () => {
         {isOpen && (
           <div className="lg:hidden py-6 border-t border-border animate-fade-in">
             <div className="flex flex-col gap-4">
+              {navLinks.slice(0, 2).map((link) => (
+                <Link
+                  key={link.href}
+                  to={link.href}
+                  className="text-sm font-medium text-muted-foreground hover:text-accent transition-colors tracking-wide py-2"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              ))}
+
               {/* Property Management with sub-items */}
               <div className="space-y-2">
                 <Link
@@ -128,7 +150,7 @@ const Navbar = () => {
                 </div>
               </div>
 
-              {navLinks.map((link) => (
+              {navLinks.slice(2).map((link) => (
                 <Link
                   key={link.href}
                   to={link.href}

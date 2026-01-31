@@ -14,6 +14,72 @@ export type Database = {
   }
   public: {
     Tables: {
+      activity_logs: {
+        Row: {
+          action: string
+          created_at: string
+          details: Json | null
+          entity_id: string | null
+          entity_type: string | null
+          id: string
+          ip_address: string | null
+          user_email: string | null
+          user_id: string | null
+          user_name: string | null
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          details?: Json | null
+          entity_id?: string | null
+          entity_type?: string | null
+          id?: string
+          ip_address?: string | null
+          user_email?: string | null
+          user_id?: string | null
+          user_name?: string | null
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          details?: Json | null
+          entity_id?: string | null
+          entity_type?: string | null
+          id?: string
+          ip_address?: string | null
+          user_email?: string | null
+          user_id?: string | null
+          user_name?: string | null
+        }
+        Relationships: []
+      }
+      amenities: {
+        Row: {
+          category: string | null
+          created_at: string
+          icon: string
+          id: string
+          name: string
+          name_fr: string | null
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          icon?: string
+          id?: string
+          name: string
+          name_fr?: string | null
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          icon?: string
+          id?: string
+          name?: string
+          name_fr?: string | null
+        }
+        Relationships: []
+      }
       comments: {
         Row: {
           approved: boolean | null
@@ -51,6 +117,69 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      experiences: {
+        Row: {
+          category: string
+          city: string | null
+          country: string | null
+          created_at: string
+          description: string | null
+          description_fr: string | null
+          duration: string | null
+          featured: boolean | null
+          featured_image: string | null
+          id: string
+          images: string[] | null
+          location: string | null
+          price: number | null
+          price_type: string | null
+          published: boolean | null
+          title: string
+          title_fr: string | null
+          updated_at: string
+        }
+        Insert: {
+          category?: string
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          description?: string | null
+          description_fr?: string | null
+          duration?: string | null
+          featured?: boolean | null
+          featured_image?: string | null
+          id?: string
+          images?: string[] | null
+          location?: string | null
+          price?: number | null
+          price_type?: string | null
+          published?: boolean | null
+          title: string
+          title_fr?: string | null
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          description?: string | null
+          description_fr?: string | null
+          duration?: string | null
+          featured?: boolean | null
+          featured_image?: string | null
+          id?: string
+          images?: string[] | null
+          location?: string | null
+          price?: number | null
+          price_type?: string | null
+          published?: boolean | null
+          title?: string
+          title_fr?: string | null
+          updated_at?: string
+        }
+        Relationships: []
       }
       inquiries: {
         Row: {
@@ -167,57 +296,111 @@ export type Database = {
       }
       properties: {
         Row: {
+          address: string | null
           bedrooms: number
           city: string
           country: string
           created_at: string
+          daily_price: number | null
           description: string | null
           featured: boolean | null
+          featured_image: string | null
           id: string
           images: string[] | null
+          latitude: number | null
           location: string
+          longitude: number | null
+          monthly_price: number | null
           price: number
           property_type: Database["public"]["Enums"]["property_type"]
           size_sqm: number | null
           status: Database["public"]["Enums"]["property_status"]
           title: string
           updated_at: string
+          weekly_price: number | null
         }
         Insert: {
+          address?: string | null
           bedrooms?: number
           city: string
           country?: string
           created_at?: string
+          daily_price?: number | null
           description?: string | null
           featured?: boolean | null
+          featured_image?: string | null
           id?: string
           images?: string[] | null
+          latitude?: number | null
           location: string
+          longitude?: number | null
+          monthly_price?: number | null
           price: number
           property_type?: Database["public"]["Enums"]["property_type"]
           size_sqm?: number | null
           status: Database["public"]["Enums"]["property_status"]
           title: string
           updated_at?: string
+          weekly_price?: number | null
         }
         Update: {
+          address?: string | null
           bedrooms?: number
           city?: string
           country?: string
           created_at?: string
+          daily_price?: number | null
           description?: string | null
           featured?: boolean | null
+          featured_image?: string | null
           id?: string
           images?: string[] | null
+          latitude?: number | null
           location?: string
+          longitude?: number | null
+          monthly_price?: number | null
           price?: number
           property_type?: Database["public"]["Enums"]["property_type"]
           size_sqm?: number | null
           status?: Database["public"]["Enums"]["property_status"]
           title?: string
           updated_at?: string
+          weekly_price?: number | null
         }
         Relationships: []
+      }
+      property_amenities: {
+        Row: {
+          amenity_id: string
+          id: string
+          property_id: string
+        }
+        Insert: {
+          amenity_id: string
+          id?: string
+          property_id: string
+        }
+        Update: {
+          amenity_id?: string
+          id?: string
+          property_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "property_amenities_amenity_id_fkey"
+            columns: ["amenity_id"]
+            isOneToOne: false
+            referencedRelation: "amenities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "property_amenities_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_roles: {
         Row: {
@@ -254,7 +437,7 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "admin" | "user"
+      app_role: "admin" | "user" | "assistant"
       property_status: "for_rent" | "for_sale"
       property_type:
         | "apartment_rent"
@@ -392,7 +575,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "user"],
+      app_role: ["admin", "user", "assistant"],
       property_status: ["for_rent", "for_sale"],
       property_type: [
         "apartment_rent",

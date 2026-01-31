@@ -1,84 +1,12 @@
-import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
-import { MapPin, Mail, Phone, Clock, MessageCircle } from "lucide-react";
-import { z } from "zod";
+import ContactForm from "@/components/ContactForm";
+import { MapPin, Phone, Clock, MessageCircle } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
-
-const contactSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters").max(100),
-  email: z.string().email("Please enter a valid email address").max(255),
-  phone: z.string().optional(),
-  message: z.string().min(10, "Message must be at least 10 characters").max(1000),
-});
 
 const Contact = () => {
   const { t, language } = useLanguage();
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    message: "",
-  });
-  const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const { toast } = useToast();
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setErrors({});
-
-    try {
-      contactSchema.parse(formData);
-    } catch (err) {
-      if (err instanceof z.ZodError) {
-        const fieldErrors: Record<string, string> = {};
-        err.errors.forEach((error) => {
-          if (error.path[0]) {
-            fieldErrors[error.path[0] as string] = error.message;
-          }
-        });
-        setErrors(fieldErrors);
-        return;
-      }
-    }
-
-    setLoading(true);
-
-    try {
-      const { error } = await supabase.from("inquiries").insert([
-        {
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone || null,
-          message: formData.message,
-        },
-      ]);
-
-      if (error) throw error;
-
-      toast({
-        title: t.contactPage.success,
-        description: t.contactPage.successDesc,
-      });
-
-      setFormData({ name: "", email: "", phone: "", message: "" });
-    } catch (error) {
-      toast({
-        title: t.common.error,
-        description: language === 'fr' ? "Échec de l'envoi. Veuillez réessayer." : "Failed to send message. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const whatsappUrl = `https://wa.me/33767781026?text=${encodeURIComponent(
     language === 'fr' 
@@ -88,6 +16,17 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>{language === 'fr' ? "Contact - Majesty Concierge | Conciergerie de Luxe" : "Contact Us - Majesty Concierge | Luxury Concierge"}</title>
+        <meta 
+          name="description" 
+          content={language === 'fr'
+            ? "Contactez Majesty Concierge pour vos besoins en conciergerie de luxe, immobilier premium et services personnalisés."
+            : "Contact Majesty Concierge for your luxury concierge needs, premium real estate and personalized services."
+          }
+        />
+      </Helmet>
+
       <Navbar />
       <main className="pt-20">
         {/* Hero Section */}
@@ -98,7 +37,7 @@ const Contact = () => {
               alt="Office"
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-midnight/80" />
+            <div className="absolute inset-0 bg-purple/80" />
           </div>
           <div className="relative z-10 container px-4 md:px-6 text-center">
             <div className="inline-flex items-center gap-3 text-accent tracking-[0.3em] text-sm font-medium uppercase mb-6">
@@ -147,21 +86,6 @@ const Contact = () => {
 
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 flex items-center justify-center bg-accent/10 flex-shrink-0">
-                      <Mail className="w-5 h-5 text-accent" />
-                    </div>
-                    <div>
-                      <h3 className="font-display text-lg mb-1">Email</h3>
-                      <a 
-                        href="mailto:majestyconcierge1@gmail.com"
-                        className="text-muted-foreground hover:text-accent transition-colors"
-                      >
-                        majestyconcierge1@gmail.com
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 flex items-center justify-center bg-accent/10 flex-shrink-0">
                       <Phone className="w-5 h-5 text-accent" />
                     </div>
                     <div>
@@ -193,7 +117,7 @@ const Contact = () => {
                   href={whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-3 px-6 py-4 bg-[#25D366] text-white hover:bg-[#20BD5A] transition-colors"
+                  className="inline-flex items-center gap-3 px-6 py-4 bg-green-600 text-white hover:bg-green-700 transition-colors"
                 >
                   <MessageCircle className="w-5 h-5" />
                   {t.contactPage.whatsapp}
@@ -205,60 +129,7 @@ const Contact = () => {
                 <h3 className="font-display text-2xl mb-6">
                   {language === 'fr' ? 'Envoyez-nous un Message' : 'Send Us a Message'}
                 </h3>
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="space-y-2">
-                    <Label htmlFor="name">{t.contactPage.name} *</Label>
-                    <Input
-                      id="name"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className={`bg-background ${errors.name ? "border-destructive" : ""}`}
-                      placeholder={t.contactPage.name}
-                    />
-                    {errors.name && <p className="text-sm text-destructive">{errors.name}</p>}
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="email">{t.contactPage.email} *</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className={`bg-background ${errors.email ? "border-destructive" : ""}`}
-                      placeholder="your@email.com"
-                    />
-                    {errors.email && <p className="text-sm text-destructive">{errors.email}</p>}
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="phone">{t.contactPage.phone}</Label>
-                    <Input
-                      id="phone"
-                      type="tel"
-                      value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className="bg-background"
-                      placeholder="+33 6 00 00 00 00"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="message">{t.contactPage.message} *</Label>
-                    <Textarea
-                      id="message"
-                      value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      className={`min-h-[150px] bg-background ${errors.message ? "border-destructive" : ""}`}
-                      placeholder={language === 'fr' ? "Décrivez-nous vos besoins..." : "Tell us about your needs..."}
-                    />
-                    {errors.message && <p className="text-sm text-destructive">{errors.message}</p>}
-                  </div>
-
-                  <Button type="submit" variant="luxury" className="w-full" disabled={loading}>
-                    {loading ? t.common.loading : t.contactPage.send}
-                  </Button>
-                </form>
+                <ContactForm />
               </div>
             </div>
           </div>
