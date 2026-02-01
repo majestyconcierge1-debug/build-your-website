@@ -2,240 +2,315 @@ import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/i18n/LanguageContext";
-import LuxuryCarousel from "@/components/LuxuryCarousel";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 import { 
+  Wine, 
+  Camera, 
   Heart, 
-  Globe, 
-  Award, 
-  Users,
-  Wine,
-  MapPin,
-  Cake,
-  Medal,
-  PartyPopper
+  Trophy, 
+  PartyPopper,
+  Star,
+  Award,
+  Users
 } from "lucide-react";
-
-const aboutCarouselSlides = [
-  {
-    image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1920&q=80",
-    title: { en: "Luxury Concierge Excellence", fr: "Excellence Conciergerie de Luxe" },
-    subtitle: { en: "Serving discerning clients worldwide", fr: "Au service de clients exigeants" },
-  },
-  {
-    image: "https://images.unsplash.com/photo-1540946485063-a40da27545f8?w=1920&q=80",
-    title: { en: "Yacht Experiences", fr: "Expériences Yacht" },
-    subtitle: { en: "Private Mediterranean cruises", fr: "Croisières privées en Méditerranée" },
-  },
-  {
-    image: "https://images.unsplash.com/photo-1519741497674-611481863552?w=1920&q=80",
-    title: { en: "Exclusive Events", fr: "Événements Exclusifs" },
-    subtitle: { en: "Bespoke celebrations", fr: "Célébrations sur mesure" },
-  },
-];
 
 const About = () => {
   const { language } = useLanguage();
 
   const activities = [
     {
+      id: "private-tours",
+      icon: Camera,
+      title: { en: "Private Tours", fr: "Visites Privées" },
+      description: {
+        en: "Exclusive guided tours of the French Riviera, Italian coast, and beyond. Experience hidden gems and iconic landmarks with knowledgeable local guides.",
+        fr: "Visites guidées exclusives de la Côte d'Azur, de la côte italienne et au-delà. Découvrez des joyaux cachés et des sites emblématiques avec des guides locaux."
+      },
+      image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=600&q=80"
+    },
+    {
+      id: "wine-tasting",
       icon: Wine,
-      title: language === 'fr' ? "Dégustations de Vin" : "Wine Tasting Experiences",
-      description: language === 'fr' 
-        ? "Découvrez les meilleurs vignobles de France, d'Italie et au-delà avec des dégustations privées guidées par des sommeliers experts."
-        : "Discover the finest vineyards in France, Italy, and beyond with private tastings guided by expert sommeliers.",
-      image: "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=800&q=80",
+      title: { en: "Wine Tasting Experiences", fr: "Dégustations de Vin" },
+      description: {
+        en: "Journey through renowned vineyards and private cellars. Savor exceptional wines while learning from sommeliers and winemakers.",
+        fr: "Parcourez des vignobles renommés et des caves privées. Savourez des vins exceptionnels en apprenant auprès de sommeliers."
+      },
+      image: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600&q=80"
     },
     {
-      icon: MapPin,
-      title: language === 'fr' ? "Visites Privées" : "Private Tours",
-      description: language === 'fr'
-        ? "Explorez des destinations exclusives avec des guides privés. De la Côte d'Azur à Dubaï, vivez des expériences uniques."
-        : "Explore exclusive destinations with private guides. From the French Riviera to Dubai, experience the extraordinary.",
-      image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=800&q=80",
-    },
-    {
+      id: "wedding-planning",
       icon: Heart,
-      title: language === 'fr' ? "Organisation de Mariages" : "Wedding Planning",
-      description: language === 'fr'
-        ? "Créez le mariage de vos rêves dans des châteaux et lieux exceptionnels. Service complet de A à Z."
-        : "Create your dream wedding in stunning châteaux and exclusive venues. Complete service from A to Z.",
-      image: "https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=80",
+      title: { en: "Wedding Planning", fr: "Organisation de Mariages" },
+      description: {
+        en: "Create your dream wedding in the most stunning Mediterranean venues. From intimate ceremonies to grand celebrations, every detail perfected.",
+        fr: "Créez le mariage de vos rêves dans les plus beaux lieux méditerranéens. Des cérémonies intimes aux grandes célébrations."
+      },
+      image: "https://images.unsplash.com/photo-1519741497674-611481863552?w=600&q=80"
     },
     {
-      icon: Medal,
-      title: language === 'fr' ? "Événements Sportifs" : "Sports Events",
-      description: language === 'fr'
-        ? "Accès VIP aux plus grands événements sportifs: Monaco Grand Prix, Roland Garros, matchs de football d'élite."
-        : "VIP access to major sporting events: Monaco Grand Prix, Roland Garros, elite football matches.",
-      image: "https://images.unsplash.com/photo-1459865264687-595d652de67e?w=800&q=80",
+      id: "sports-events",
+      icon: Trophy,
+      title: { en: "Sports Events Planning", fr: "Événements Sportifs" },
+      description: {
+        en: "VIP access to Monaco Grand Prix, tennis championships, and yacht regattas. Experience the thrill with premium hospitality.",
+        fr: "Accès VIP au Grand Prix de Monaco, championnats de tennis et régates. Vivez l'émotion avec une hospitalité premium."
+      },
+      image: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=600&q=80"
     },
     {
-      icon: Cake,
-      title: language === 'fr' ? "Anniversaires & Célébrations" : "Birthdays & Celebrations",
-      description: language === 'fr'
-        ? "Des fêtes d'anniversaire inoubliables dans des lieux d'exception. Chaque détail est soigneusement orchestré."
-        : "Unforgettable birthday parties in exceptional venues. Every detail carefully orchestrated.",
-      image: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=800&q=80",
-    },
-    {
+      id: "birthday-events",
       icon: PartyPopper,
-      title: language === 'fr' ? "Événements Privés" : "Private Events",
-      description: language === 'fr'
-        ? "Galas, réceptions d'entreprise, soirées privées. Nous créons des moments magiques sur mesure."
-        : "Galas, corporate receptions, private parties. We create magical bespoke moments.",
-      image: "https://images.unsplash.com/photo-1492684223066-81342ee5ff32?w=800&q=80",
+      title: { en: "Birthday & Private Events", fr: "Anniversaires & Événements Privés" },
+      description: {
+        en: "Celebrate life's milestones with unforgettable private events. From milestone birthdays to exclusive gatherings, we create magical moments.",
+        fr: "Célébrez les moments importants avec des événements privés inoubliables. Des anniversaires aux réceptions exclusives."
+      },
+      image: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600&q=80"
     },
   ];
 
-  const values = [
-    {
-      icon: Award,
-      title: language === 'fr' ? "Excellence" : "Excellence",
-      description: language === 'fr'
-        ? "Nous visons la perfection dans chaque détail"
-        : "We strive for perfection in every detail",
-    },
-    {
-      icon: Users,
-      title: language === 'fr' ? "Discrétion" : "Discretion",
-      description: language === 'fr'
-        ? "Votre vie privée est notre priorité absolue"
-        : "Your privacy is our absolute priority",
-    },
-    {
-      icon: Globe,
-      title: language === 'fr' ? "Réseau International" : "Global Network",
-      description: language === 'fr'
-        ? "Présence dans les destinations les plus exclusives"
-        : "Presence in the most exclusive destinations",
-    },
+  const stats = [
+    { value: "20+", label: { en: "Years Experience", fr: "Années d'Expérience" } },
+    { value: "500+", label: { en: "Properties Managed", fr: "Propriétés Gérées" } },
+    { value: "5", label: { en: "Countries", fr: "Pays" } },
+    { value: "1000+", label: { en: "Happy Clients", fr: "Clients Satisfaits" } },
   ];
 
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
-        <title>{language === 'fr' ? "À Propos - Majesty Concierge | Services de Luxe" : "About Us - Majesty Concierge | Luxury Services"}</title>
-        <meta 
-          name="description" 
-          content={language === 'fr' 
-            ? "Découvrez Majesty Concierge, votre partenaire de confiance pour les services de conciergerie de luxe, l'immobilier premium et les expériences exclusives."
-            : "Discover Majesty Concierge, your trusted partner for luxury concierge services, premium real estate, and exclusive experiences."
-          }
+        <title>{language === 'fr' ? 'À Propos de Majesty Concierge | Services de Luxe' : 'About Majesty Concierge | Luxury Services'}</title>
+        <meta name="description" content={language === 'fr' 
+          ? 'Découvrez Majesty Concierge, votre partenaire de confiance pour l\'immobilier de luxe et les services de conciergerie haut de gamme.'
+          : 'Discover Majesty Concierge, your trusted partner for luxury real estate and high-end concierge services.'} 
         />
       </Helmet>
 
       <Navbar />
       <main className="pt-20">
-        {/* Hero Carousel */}
-        <section className="relative">
-          <LuxuryCarousel
-            slides={aboutCarouselSlides}
-            language={language}
-            height="h-[60vh]"
-            interval={5000}
-          />
-          <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
-            <div className="text-center">
-              <div className="inline-flex items-center gap-3 text-accent tracking-[0.3em] text-sm font-medium uppercase mb-6">
-                <span className="w-8 h-px bg-accent" />
-                {language === 'fr' ? 'Notre Histoire' : 'Our Story'}
-                <span className="w-8 h-px bg-accent" />
+        {/* Hero Section */}
+        <section className="relative py-32 overflow-hidden">
+          <div className="absolute inset-0">
+            <img
+              src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1920&q=80"
+              alt="About Majesty Concierge"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-purple/70" />
+          </div>
+          <div className="relative z-10 container px-4 md:px-6 text-center text-foreground">
+            <div className="inline-flex items-center gap-3 text-accent tracking-[0.3em] text-sm font-medium uppercase mb-6">
+              <span className="w-8 h-px bg-accent" />
+              {language === 'fr' ? 'Notre Histoire' : 'Our Story'}
+              <span className="w-8 h-px bg-accent" />
+            </div>
+            <h1 className="font-display text-4xl md:text-6xl lg:text-7xl mb-6">
+              {language === 'fr' ? 'À Propos de Nous' : 'About Us'}
+            </h1>
+            <p className="text-xl text-foreground/80 max-w-2xl mx-auto">
+              {language === 'fr' 
+                ? 'Votre partenaire de confiance pour une vie de luxe sans souci.'
+                : 'Your trusted partner for worry-free luxury living.'}
+            </p>
+          </div>
+        </section>
+
+        {/* About Content */}
+        <section className="py-24">
+          <div className="container px-4 md:px-6">
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
+              <div>
+                <div className="inline-flex items-center gap-3 text-accent tracking-[0.3em] text-sm font-medium uppercase mb-4">
+                  <span className="w-8 h-px bg-accent" />
+                  Majesty Concierge
+                  <span className="w-8 h-px bg-accent" />
+                </div>
+                <h2 className="font-display text-3xl md:text-4xl mb-6">
+                  {language === 'fr' 
+                    ? 'Excellence en Conciergerie & Immobilier de Luxe'
+                    : 'Excellence in Concierge & Luxury Real Estate'}
+                </h2>
+                <div className="space-y-4 text-muted-foreground">
+                  <p>
+                    {language === 'fr'
+                      ? 'Fondée avec une vision d\'excellence, Majesty Concierge est devenue une référence dans les services de conciergerie et l\'immobilier de luxe à travers la Méditerranée et au-delà.'
+                      : 'Founded with a vision of excellence, Majesty Concierge has become a reference in concierge services and luxury real estate across the Mediterranean and beyond.'}
+                  </p>
+                  <p>
+                    {language === 'fr'
+                      ? 'Notre équipe de professionnels dévoués travaille sans relâche pour transformer vos aspirations en réalité, qu\'il s\'agisse de trouver la propriété parfaite, d\'organiser un événement inoubliable ou de gérer votre patrimoine immobilier.'
+                      : 'Our team of dedicated professionals works tirelessly to transform your aspirations into reality, whether finding the perfect property, organizing an unforgettable event, or managing your real estate portfolio.'}
+                  </p>
+                  <p>
+                    {language === 'fr'
+                      ? 'Avec une présence en France, Italie, Tunisie, Émirats Arabes Unis et Algérie, nous offrons une expertise locale avec des standards internationaux.'
+                      : 'With a presence in France, Italy, Tunisia, UAE, and Algeria, we offer local expertise with international standards.'}
+                  </p>
+                </div>
               </div>
-              <h1 className="font-display text-4xl md:text-6xl lg:text-7xl text-foreground mb-6">
-                {language === 'fr' ? 'À Propos de Nous' : 'About Us'}
-              </h1>
+              <div className="grid grid-cols-2 gap-4">
+                <img
+                  src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=400&q=80"
+                  alt="Luxury property"
+                  className="w-full h-48 object-cover"
+                />
+                <img
+                  src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400&q=80"
+                  alt="Property management"
+                  className="w-full h-48 object-cover"
+                />
+                <img
+                  src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&q=80"
+                  alt="Concierge service"
+                  className="w-full h-48 object-cover"
+                />
+                <img
+                  src="https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?w=400&q=80"
+                  alt="Luxury event"
+                  className="w-full h-48 object-cover"
+                />
+              </div>
             </div>
           </div>
         </section>
 
-        {/* Introduction */}
-        <section className="py-24 bg-secondary/30">
-          <div className="container px-4 md:px-6 max-w-4xl mx-auto text-center">
-            <h2 className="font-display text-3xl md:text-4xl mb-8">
-              {language === 'fr' ? 'Bienvenue chez Majesty Concierge' : 'Welcome to Majesty Concierge'}
-            </h2>
-            <p className="text-muted-foreground text-lg leading-relaxed mb-8">
-              {language === 'fr'
-                ? "Majesty Concierge est une société internationale de conciergerie de luxe dédiée à offrir des services exceptionnels aux clients les plus exigeants. Notre équipe d'experts passionnés s'engage à transformer vos rêves en réalité, qu'il s'agisse de trouver la propriété parfaite, d'organiser un événement inoubliable ou de créer des expériences sur mesure."
-                : "Majesty Concierge is an international luxury concierge company dedicated to providing exceptional services to the most discerning clients. Our team of passionate experts is committed to turning your dreams into reality, whether it's finding the perfect property, organizing an unforgettable event, or creating bespoke experiences."}
-            </p>
-            <p className="text-muted-foreground text-lg leading-relaxed">
-              {language === 'fr'
-                ? "Avec une présence en France, Italie, Tunisie, Émirats Arabes Unis et Algérie, nous offrons un service personnalisé qui allie l'excellence locale à des standards internationaux."
-                : "With a presence in France, Italy, Tunisia, the United Arab Emirates, and Algeria, we offer personalized service that combines local excellence with international standards."}
-            </p>
+        {/* Stats */}
+        <section className="py-16 bg-purple text-foreground">
+          <div className="container px-4 md:px-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+              {stats.map((stat, index) => (
+                <div key={index}>
+                  <div className="font-display text-4xl md:text-5xl text-accent mb-2">{stat.value}</div>
+                  <div className="text-foreground/80">{stat.label[language]}</div>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
-        {/* Values */}
-        <section className="py-24">
+        {/* Our Values */}
+        <section className="py-24 bg-secondary/30">
           <div className="container px-4 md:px-6">
             <div className="text-center mb-16">
               <h2 className="font-display text-3xl md:text-4xl mb-4">
                 {language === 'fr' ? 'Nos Valeurs' : 'Our Values'}
               </h2>
             </div>
-            <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-              {values.map((value, index) => (
-                <div key={index} className="text-center p-8 bg-card border border-border">
-                  <div className="w-16 h-16 bg-accent/10 mx-auto flex items-center justify-center mb-6">
-                    <value.icon className="w-8 h-8 text-accent" />
+            <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+              <div className="text-center p-6">
+                <div className="w-16 h-16 mx-auto mb-4 bg-accent/20 flex items-center justify-center rounded-full">
+                  <Star className="w-8 h-8 text-accent" />
+                </div>
+                <h3 className="font-display text-xl mb-2">{language === 'fr' ? 'Excellence' : 'Excellence'}</h3>
+                <p className="text-muted-foreground text-sm">
+                  {language === 'fr'
+                    ? 'Nous visons la perfection dans chaque détail de nos services.'
+                    : 'We strive for perfection in every detail of our services.'}
+                </p>
+              </div>
+              <div className="text-center p-6">
+                <div className="w-16 h-16 mx-auto mb-4 bg-accent/20 flex items-center justify-center rounded-full">
+                  <Award className="w-8 h-8 text-accent" />
+                </div>
+                <h3 className="font-display text-xl mb-2">{language === 'fr' ? 'Discrétion' : 'Discretion'}</h3>
+                <p className="text-muted-foreground text-sm">
+                  {language === 'fr'
+                    ? 'Votre vie privée et confidentialité sont notre priorité absolue.'
+                    : 'Your privacy and confidentiality are our absolute priority.'}
+                </p>
+              </div>
+              <div className="text-center p-6">
+                <div className="w-16 h-16 mx-auto mb-4 bg-accent/20 flex items-center justify-center rounded-full">
+                  <Users className="w-8 h-8 text-accent" />
+                </div>
+                <h3 className="font-display text-xl mb-2">{language === 'fr' ? 'Personnalisation' : 'Personalization'}</h3>
+                <p className="text-muted-foreground text-sm">
+                  {language === 'fr'
+                    ? 'Chaque client est unique, nos services le sont aussi.'
+                    : 'Every client is unique, and so are our services.'}
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Activities Section */}
+        <section className="py-24">
+          <div className="container px-4 md:px-6">
+            <div className="text-center mb-16">
+              <div className="inline-flex items-center gap-3 text-accent tracking-[0.3em] text-sm font-medium uppercase mb-4">
+                <span className="w-8 h-px bg-accent" />
+                {language === 'fr' ? 'Nos Activités' : 'Our Activities'}
+                <span className="w-8 h-px bg-accent" />
+              </div>
+              <h2 className="font-display text-3xl md:text-5xl mb-4">
+                {language === 'fr' ? 'Expériences Exclusives' : 'Exclusive Experiences'}
+              </h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                {language === 'fr'
+                  ? 'Découvrez notre gamme d\'expériences et activités de luxe conçues pour créer des souvenirs inoubliables.'
+                  : 'Discover our range of luxury experiences and activities designed to create unforgettable memories.'}
+              </p>
+            </div>
+
+            <div className="space-y-12">
+              {activities.map((activity, index) => (
+                <div
+                  key={activity.id}
+                  className={`grid lg:grid-cols-2 gap-12 items-center ${
+                    index % 2 === 1 ? 'lg:flex-row-reverse' : ''
+                  }`}
+                >
+                  <div className={index % 2 === 1 ? 'lg:order-2' : ''}>
+                    <div className="relative h-80 overflow-hidden">
+                      <img
+                        src={activity.image}
+                        alt={activity.title[language]}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-purple/50 to-transparent" />
+                      <div className="absolute bottom-4 left-4">
+                        <div className="w-12 h-12 bg-accent flex items-center justify-center">
+                          <activity.icon className="w-6 h-6 text-accent-foreground" />
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <h3 className="font-display text-xl mb-4">{value.title}</h3>
-                  <p className="text-muted-foreground">{value.description}</p>
+                  <div className={index % 2 === 1 ? 'lg:order-1' : ''}>
+                    <h3 className="font-display text-2xl md:text-3xl mb-4">{activity.title[language]}</h3>
+                    <p className="text-muted-foreground leading-relaxed mb-6">
+                      {activity.description[language]}
+                    </p>
+                    <Link to="/contact">
+                      <Button variant="luxury-outline">
+                        {language === 'fr' ? 'En Savoir Plus' : 'Learn More'}
+                      </Button>
+                    </Link>
+                  </div>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* Activities */}
-        <section className="py-24 bg-secondary/30">
-          <div className="container px-4 md:px-6">
-            <div className="text-center mb-16">
-              <div className="inline-flex items-center gap-3 text-accent tracking-[0.3em] text-sm font-medium uppercase mb-6">
-                <span className="w-8 h-px bg-accent" />
-                {language === 'fr' ? 'Nos Activités' : 'Our Activities'}
-                <span className="w-8 h-px bg-accent" />
-              </div>
-              <h2 className="font-display text-3xl md:text-4xl mb-4">
-                {language === 'fr' ? 'Expériences Exclusives' : 'Exclusive Experiences'}
-              </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                {language === 'fr'
-                  ? "Découvrez notre gamme complète de services et d'expériences sur mesure"
-                  : "Discover our complete range of bespoke services and experiences"}
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-              {activities.map((activity, index) => (
-                <div
-                  key={index}
-                  className="bg-card border border-border overflow-hidden group hover:border-accent/50 transition-colors"
-                >
-                  <div className="relative h-48 overflow-hidden">
-                    <img
-                      src={activity.image}
-                      alt={activity.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-purple/80 to-transparent" />
-                    <div className="absolute bottom-4 left-4">
-                      <div className="w-12 h-12 bg-accent/20 backdrop-blur-sm flex items-center justify-center">
-                        <activity.icon className="w-6 h-6 text-accent" />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="p-6">
-                    <h3 className="font-display text-xl mb-3">{activity.title}</h3>
-                    <p className="text-muted-foreground text-sm leading-relaxed">
-                      {activity.description}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
+        {/* CTA */}
+        <section className="py-24 bg-purple text-foreground">
+          <div className="container px-4 md:px-6 text-center">
+            <h2 className="font-display text-3xl md:text-5xl mb-6">
+              {language === 'fr' ? 'Prêt à Vivre l\'Excellence ?' : 'Ready to Experience Excellence?'}
+            </h2>
+            <p className="text-foreground/80 max-w-xl mx-auto mb-8">
+              {language === 'fr'
+                ? 'Contactez-nous pour découvrir comment nous pouvons vous accompagner.'
+                : 'Contact us to discover how we can assist you.'}
+            </p>
+            <Link to="/contact">
+              <Button variant="luxury" size="xl">
+                {language === 'fr' ? 'Nous Contacter' : 'Contact Us'}
+              </Button>
+            </Link>
           </div>
         </section>
       </main>
