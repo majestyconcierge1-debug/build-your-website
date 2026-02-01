@@ -5,8 +5,13 @@ import Footer from "@/components/Footer";
 import PropertySearch from "@/components/PropertySearch";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { MapPin, Bed, Square, Phone, Mail, MessageCircle, ChevronLeft, ChevronRight, X } from "lucide-react";
+import { Helmet } from "react-helmet-async";
+import AmenityIcon from "@/components/AmenityIcon";
+import { MapPin, Bed, Square, Phone, Mail, MessageCircle, ChevronLeft, ChevronRight, X, Heart, Star } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { Tables } from "@/integrations/supabase/types";
+
+type Amenity = Tables<"amenities">;
 
 interface Property {
   id: string;
@@ -16,21 +21,40 @@ interface Property {
   city: string;
   country: string;
   price: number;
+  daily_price: number | null;
+  weekly_price: number | null;
+  monthly_price: number | null;
   status: string;
   property_type: string;
   bedrooms: number;
   size_sqm: number | null;
   images: string[];
+  featured_image: string | null;
   featured: boolean;
+  address: string | null;
+  latitude: number | null;
+  longitude: number | null;
+}
+
+interface PropertyAmenity {
+  amenity: Amenity;
 }
 
 const Properties = () => {
   const [searchParams] = useSearchParams();
   const [properties, setProperties] = useState<Property[]>([]);
+  const [propertyAmenities, setPropertyAmenities] = useState<Record<string, Amenity[]>>({});
   const [loading, setLoading] = useState(true);
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [favorites, setFavorites] = useState<string[]>([]);
   const { t, language } = useLanguage();
+
+  useEffect(() => {
+    // Load favorites from localStorage
+    const saved = localStorage.getItem("property-favorites");
+    if (saved) setFavorites(JSON.parse(saved));
+  }, []);
 
   useEffect(() => {
     const fetchProperties = async () => {
@@ -69,12 +93,40 @@ const Properties = () => {
 
       if (!error && data) {
         setProperties(data);
+        
+        // Fetch amenities for all properties
+        const propertyIds = data.map(p => p.id);
+        if (propertyIds.length > 0) {
+          const { data: amenityData } = await supabase
+            .from("property_amenities")
+            .select("property_id, amenity:amenities(*)")
+            .in("property_id", propertyIds);
+          
+          if (amenityData) {
+            const amenitiesByProperty: Record<string, Amenity[]> = {};
+            amenityData.forEach((pa: { property_id: string; amenity: Amenity }) => {
+              if (!amenitiesByProperty[pa.property_id]) {
+                amenitiesByProperty[pa.property_id] = [];
+              }
+              amenitiesByProperty[pa.property_id].push(pa.amenity);
+            });
+            setPropertyAmenities(amenitiesByProperty);
+          }
+        }
       }
       setLoading(false);
     };
 
     fetchProperties();
   }, [searchParams]);
+
+  const toggleFavorite = (propertyId: string) => {
+    const newFavorites = favorites.includes(propertyId)
+      ? favorites.filter(id => id !== propertyId)
+      : [...favorites, propertyId];
+    setFavorites(newFavorites);
+    localStorage.setItem("property-favorites", JSON.stringify(newFavorites));
+  };
 
   const formatPrice = (price: number, status: string) => {
     const formatted = new Intl.NumberFormat("en-US", {
@@ -110,14 +162,20 @@ const Properties = () => {
   };
 
   const nextImage = () => {
-    if (selectedProperty && selectedProperty.images) {
-      setCurrentImageIndex((prev) => (prev + 1) % selectedProperty.images.length);
+    if (selectedProperty) {
+      const images = selectedProperty.images || [];
+      if (images.length > 0) {
+        setCurrentImageIndex((prev) => (prev + 1) % images.length);
+      }
     }
   };
 
   const prevImage = () => {
-    if (selectedProperty && selectedProperty.images) {
-      setCurrentImageIndex((prev) => (prev - 1 + selectedProperty.images.length) % selectedProperty.images.length);
+    if (selectedProperty) {
+      const images = selectedProperty.images || [];
+      if (images.length > 0) {
+        setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
+      }
     }
   };
 
@@ -128,8 +186,26 @@ const Properties = () => {
     return `https://wa.me/33767781026?text=${encodeURIComponent(message)}`;
   };
 
+  const getGoogleMapsUrl = (property: Property) => {
+    if (property.latitude && property.longitude) {
+      return `https://www.google.com/maps?q=${property.latitude},${property.longitude}`;
+    }
+    if (property.address) {
+      return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(property.address)}`;
+    }
+    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${property.city}, ${property.country}`)}`;
+  };
+
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>{language === 'fr' ? 'Propriétés de Luxe | Majesty Concierge' : 'Luxury Properties | Majesty Concierge'}</title>
+        <meta name="description" content={language === 'fr' 
+          ? 'Découvrez notre sélection exclusive de propriétés de luxe à vendre et à louer en France, Italie, Tunisie, EAU et Algérie.'
+          : 'Discover our exclusive selection of luxury properties for sale and rent in France, Italy, Tunisia, UAE, and Algeria.'} 
+        />
+      </Helmet>
+
       <Navbar />
       <main className="pt-20">
         {/* Hero Section */}
@@ -160,7 +236,7 @@ const Properties = () => {
         {/* Search */}
         <PropertySearch />
 
-        {/* Properties Grid */}
+        {/* Properties Grid - Airbnb Style */}
         <section className="py-24 bg-secondary/30">
           <div className="container px-4 md:px-6">
             {loading ? (
@@ -188,101 +264,144 @@ const Properties = () => {
                       : (language === 'fr' ? 'propriétés trouvées' : 'properties found')}
                   </p>
                 </div>
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {properties.map((property) => (
-                    <div
-                      key={property.id}
-                      className="group bg-card border border-border overflow-hidden luxury-shadow hover:luxury-shadow-lg transition-all duration-500"
-                    >
-                      {/* Image */}
-                      <div 
-                        className="relative h-64 overflow-hidden cursor-pointer"
-                        onClick={() => openPropertyModal(property)}
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                  {properties.map((property) => {
+                    const amenities = propertyAmenities[property.id] || [];
+                    const displayImage = property.featured_image || property.images?.[0] || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80";
+                    
+                    return (
+                      <div
+                        key={property.id}
+                        className="group bg-card border border-border rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300"
                       >
-                        <img
-                          src={property.images?.[0] || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80"}
-                          alt={property.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                        />
-                        <div className="absolute top-4 left-4">
-                          <span className="px-3 py-1 bg-accent text-accent-foreground text-xs font-medium uppercase tracking-wide">
-                            {property.status === "for_rent" ? t.search.forRent : t.search.forSale}
-                          </span>
-                        </div>
-                        {property.featured && (
-                          <div className="absolute top-4 right-4">
-                            <span className="px-3 py-1 bg-foreground text-background text-xs font-medium uppercase tracking-wide">
-                              {t.properties.featured}
+                        {/* Image */}
+                        <div 
+                          className="relative h-56 overflow-hidden cursor-pointer"
+                          onClick={() => openPropertyModal(property)}
+                        >
+                          <img
+                            src={displayImage}
+                            alt={property.title}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+                          {/* Favorite Button */}
+                          <button
+                            onClick={(e) => { e.stopPropagation(); toggleFavorite(property.id); }}
+                            className="absolute top-3 right-3 p-2 rounded-full bg-white/80 hover:bg-white transition-colors"
+                          >
+                            <Heart 
+                              className={`w-5 h-5 ${favorites.includes(property.id) ? 'fill-red-500 text-red-500' : 'text-gray-600'}`} 
+                            />
+                          </button>
+                          
+                          {/* Status Badge */}
+                          <div className="absolute top-3 left-3 flex gap-2">
+                            <span className="px-2 py-1 bg-accent text-accent-foreground text-xs font-medium rounded-full">
+                              {property.status === "for_rent" ? t.search.forRent : t.search.forSale}
                             </span>
+                            {property.featured && (
+                              <span className="px-2 py-1 bg-purple text-white text-xs font-medium rounded-full flex items-center gap-1">
+                                <Star className="w-3 h-3 fill-current" />
+                                {t.properties.featured}
+                              </span>
+                            )}
                           </div>
-                        )}
-                        {property.images && property.images.length > 1 && (
-                          <div className="absolute bottom-4 right-4">
-                            <span className="px-2 py-1 bg-purple/70 text-white text-xs">
-                              {property.images.length} {language === 'fr' ? 'photos' : 'photos'}
-                            </span>
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Content */}
-                      <div className="p-6 space-y-4">
-                        <div>
-                          <p className="text-accent text-sm font-medium uppercase tracking-wide mb-1">
-                            {formatPropertyType(property.property_type)}
-                          </p>
-                          <h3 className="font-display text-xl line-clamp-1">
-                            {property.title}
-                          </h3>
-                        </div>
-
-                        <div className="flex items-center gap-2 text-muted-foreground text-sm">
-                          <MapPin className="w-4 h-4" />
-                          <span>{property.city}, {property.country}</span>
-                        </div>
-
-                        <div className="flex items-center gap-6 text-sm">
-                          <div className="flex items-center gap-2">
-                            <Bed className="w-4 h-4 text-muted-foreground" />
-                            <span>{property.bedrooms} {t.properties.beds}</span>
-                          </div>
-                          {property.size_sqm && (
-                            <div className="flex items-center gap-2">
-                              <Square className="w-4 h-4 text-muted-foreground" />
-                              <span>{property.size_sqm} {t.properties.sqm}</span>
+                          
+                          {/* Image Count */}
+                          {property.images && property.images.length > 1 && (
+                            <div className="absolute bottom-3 right-3 px-2 py-1 bg-black/60 text-white text-xs rounded">
+                              1/{property.images.length}
                             </div>
                           )}
                         </div>
 
-                        <div className="pt-4 border-t border-border">
-                          <span className="font-display text-xl text-accent block mb-4">
-                            {formatPrice(property.price, property.status)}
-                          </span>
-                          
-                          {/* Contact CTAs */}
-                          <div className="flex gap-2">
+                        {/* Content */}
+                        <div className="p-4 space-y-3">
+                          {/* Location & Type */}
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-1 text-muted-foreground text-sm">
+                              <MapPin className="w-4 h-4" />
+                              <span>{property.city}, {property.country}</span>
+                            </div>
+                            <span className="text-xs text-accent font-medium uppercase">
+                              {formatPropertyType(property.property_type)}
+                            </span>
+                          </div>
+
+                          {/* Title */}
+                          <h3 
+                            className="font-display text-lg line-clamp-1 cursor-pointer hover:text-accent transition-colors"
+                            onClick={() => openPropertyModal(property)}
+                          >
+                            {property.title}
+                          </h3>
+
+                          {/* Amenities Icons - Airbnb Style */}
+                          {amenities.length > 0 && (
+                            <div className="flex items-center gap-2 flex-wrap">
+                              {amenities.slice(0, 4).map((amenity) => (
+                                <div
+                                  key={amenity.id}
+                                  className="flex items-center gap-1 text-xs text-muted-foreground"
+                                  title={language === 'fr' ? amenity.name_fr || amenity.name : amenity.name}
+                                >
+                                  <AmenityIcon icon={amenity.icon} className="w-3.5 h-3.5" />
+                                </div>
+                              ))}
+                              {amenities.length > 4 && (
+                                <span className="text-xs text-muted-foreground">+{amenities.length - 4}</span>
+                              )}
+                            </div>
+                          )}
+
+                          {/* Details */}
+                          <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                            <div className="flex items-center gap-1">
+                              <Bed className="w-4 h-4" />
+                              <span>{property.bedrooms}</span>
+                            </div>
+                            {property.size_sqm && (
+                              <div className="flex items-center gap-1">
+                                <Square className="w-4 h-4" />
+                                <span>{property.size_sqm}m²</span>
+                              </div>
+                            )}
+                          </div>
+
+                          {/* Price */}
+                          <div className="pt-2 border-t border-border">
+                            <span className="font-display text-lg text-accent">
+                              {formatPrice(property.price, property.status)}
+                            </span>
+                          </div>
+
+                          {/* Quick Actions */}
+                          <div className="flex gap-2 pt-2">
                             <a href="tel:+33767781026" className="flex-1">
-                              <Button variant="luxury-outline" size="sm" className="w-full gap-2">
-                                <Phone className="w-4 h-4" />
-                                {language === 'fr' ? 'Appeler' : 'Call'}
+                              <Button variant="outline" size="sm" className="w-full gap-1">
+                                <Phone className="w-3 h-3" />
                               </Button>
                             </a>
-                            <a href="mailto:majestyconcierge1@gmail.com" className="flex-1">
-                              <Button variant="luxury-outline" size="sm" className="w-full gap-2">
-                                <Mail className="w-4 h-4" />
-                                Email
+                            <a 
+                              href={getGoogleMapsUrl(property)} 
+                              target="_blank" 
+                              rel="noopener noreferrer" 
+                              className="flex-1"
+                            >
+                              <Button variant="outline" size="sm" className="w-full gap-1">
+                                <MapPin className="w-3 h-3" />
                               </Button>
                             </a>
                             <a href={getWhatsAppUrl(property)} target="_blank" rel="noopener noreferrer">
                               <Button size="sm" className="bg-[#25D366] hover:bg-[#20BD5A] text-white">
-                                <MessageCircle className="w-4 h-4" />
+                                <MessageCircle className="w-3 h-3" />
                               </Button>
                             </a>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </>
             )}
@@ -292,10 +411,10 @@ const Properties = () => {
         {/* Property Modal */}
         {selectedProperty && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-purple/90 p-4" onClick={closeModal}>
-            <div className="relative max-w-5xl w-full bg-card border border-border max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            <div className="relative max-w-5xl w-full bg-card border border-border rounded-xl max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
               <button
                 onClick={closeModal}
-                className="absolute top-4 right-4 z-10 p-2 bg-purple/50 hover:bg-purple text-white transition-colors"
+                className="absolute top-4 right-4 z-10 p-2 bg-purple/50 hover:bg-purple text-white rounded-full transition-colors"
               >
                 <X className="w-6 h-6" />
               </button>
@@ -303,7 +422,7 @@ const Properties = () => {
               {/* Image Gallery */}
               <div className="relative h-[50vh]">
                 <img
-                  src={selectedProperty.images?.[currentImageIndex] || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=80"}
+                  src={selectedProperty.images?.[currentImageIndex] || selectedProperty.featured_image || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=80"}
                   alt={selectedProperty.title}
                   className="w-full h-full object-cover"
                 />
@@ -311,13 +430,13 @@ const Properties = () => {
                   <>
                     <button
                       onClick={prevImage}
-                      className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-purple/50 hover:bg-purple text-white transition-colors"
+                      className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-white/80 hover:bg-white rounded-full transition-colors"
                     >
                       <ChevronLeft className="w-6 h-6" />
                     </button>
                     <button
                       onClick={nextImage}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-purple/50 hover:bg-purple text-white transition-colors"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-white/80 hover:bg-white rounded-full transition-colors"
                     >
                       <ChevronRight className="w-6 h-6" />
                     </button>
@@ -353,9 +472,15 @@ const Properties = () => {
                     <span className="font-display text-3xl text-accent">
                       {formatPrice(selectedProperty.price, selectedProperty.status)}
                     </span>
+                    {selectedProperty.status === "for_rent" && selectedProperty.daily_price && (
+                      <p className="text-sm text-muted-foreground">
+                        €{selectedProperty.daily_price}/day • €{selectedProperty.weekly_price}/week
+                      </p>
+                    )}
                   </div>
                 </div>
 
+                {/* Details Grid */}
                 <div className="flex gap-6 mb-6 text-sm">
                   <div className="flex items-center gap-2">
                     <Bed className="w-5 h-5 text-muted-foreground" />
@@ -369,10 +494,43 @@ const Properties = () => {
                   )}
                 </div>
 
+                {/* Amenities */}
+                {propertyAmenities[selectedProperty.id]?.length > 0 && (
+                  <div className="mb-6">
+                    <h3 className="font-display text-lg mb-3">{language === 'fr' ? 'Équipements' : 'Amenities'}</h3>
+                    <div className="flex flex-wrap gap-3">
+                      {propertyAmenities[selectedProperty.id].map((amenity) => (
+                        <div
+                          key={amenity.id}
+                          className="flex items-center gap-2 px-3 py-2 bg-secondary rounded-lg text-sm"
+                        >
+                          <AmenityIcon icon={amenity.icon} className="w-4 h-4 text-accent" />
+                          <span>{language === 'fr' ? amenity.name_fr || amenity.name : amenity.name}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 {selectedProperty.description && (
                   <div className="mb-8">
                     <h3 className="font-display text-xl mb-4">{language === 'fr' ? 'Description' : 'Description'}</h3>
                     <p className="text-muted-foreground leading-relaxed">{selectedProperty.description}</p>
+                  </div>
+                )}
+
+                {/* Map Link */}
+                {(selectedProperty.address || selectedProperty.latitude) && (
+                  <div className="mb-6">
+                    <a 
+                      href={getGoogleMapsUrl(selectedProperty)} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-accent hover:underline"
+                    >
+                      <MapPin className="w-4 h-4" />
+                      {language === 'fr' ? 'Voir sur Google Maps' : 'View on Google Maps'}
+                    </a>
                   </div>
                 )}
 
@@ -381,13 +539,7 @@ const Properties = () => {
                   <a href="tel:+33767781026">
                     <Button variant="luxury" size="lg" className="gap-2">
                       <Phone className="w-5 h-5" />
-                      {language === 'fr' ? 'Appeler l\'agence' : 'Call Agency'}
-                    </Button>
-                  </a>
-                  <a href="mailto:majestyconcierge1@gmail.com">
-                    <Button variant="luxury-outline" size="lg" className="gap-2">
-                      <Mail className="w-5 h-5" />
-                      {language === 'fr' ? 'Envoyer un Email' : 'Send Email'}
+                      {t.properties.callAgency}
                     </Button>
                   </a>
                   <a href={getWhatsAppUrl(selectedProperty)} target="_blank" rel="noopener noreferrer">
@@ -396,6 +548,14 @@ const Properties = () => {
                       WhatsApp
                     </Button>
                   </a>
+                  <button onClick={() => toggleFavorite(selectedProperty.id)}>
+                    <Button variant="luxury-outline" size="lg" className="gap-2">
+                      <Heart className={`w-5 h-5 ${favorites.includes(selectedProperty.id) ? 'fill-current' : ''}`} />
+                      {favorites.includes(selectedProperty.id) 
+                        ? (language === 'fr' ? 'Sauvegardé' : 'Saved') 
+                        : (language === 'fr' ? 'Sauvegarder' : 'Save')}
+                    </Button>
+                  </button>
                 </div>
               </div>
             </div>
