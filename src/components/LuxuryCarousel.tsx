@@ -56,7 +56,7 @@ const LuxuryCarousel = ({
             className="w-full h-full object-cover"
           />
           {overlay && (
-            <div className="absolute inset-0 bg-gradient-to-t from-purple/80 via-purple/30 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
           )}
           <div className="absolute bottom-8 left-8 right-8 text-left">
             <h3 className="font-display text-2xl md:text-3xl text-foreground mb-2">

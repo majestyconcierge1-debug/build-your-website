@@ -216,7 +216,7 @@ const Properties = () => {
               alt="Luxury property"
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-purple/80" />
+            <div className="absolute inset-0 bg-black/40" />
           </div>
           <div className="relative z-10 container px-4 md:px-6 text-center text-foreground">
             <div className="inline-flex items-center gap-3 text-accent tracking-[0.3em] text-sm font-medium uppercase mb-6">
@@ -410,11 +410,11 @@ const Properties = () => {
 
         {/* Property Modal */}
         {selectedProperty && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-purple/90 p-4" onClick={closeModal}>
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4" onClick={closeModal}>
             <div className="relative max-w-5xl w-full bg-card border border-border rounded-xl max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
               <button
                 onClick={closeModal}
-                className="absolute top-4 right-4 z-10 p-2 bg-purple/50 hover:bg-purple text-white rounded-full transition-colors"
+                className="absolute top-4 right-4 z-10 p-2 bg-black/50 hover:bg-black/70 text-white rounded-full transition-colors"
               >
                 <X className="w-6 h-6" />
               </button>

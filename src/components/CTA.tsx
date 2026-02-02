@@ -9,7 +9,7 @@ const CTA = () => {
     <section className="relative py-32 overflow-hidden">
       <div className="absolute inset-0">
         <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=1920&q=80" alt="Luxury property" className="w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-purple/85" />
+        <div className="absolute inset-0 bg-black/40" />
       </div>
       <div className="relative z-10 container px-4 md:px-6 text-center">
         <div className="max-w-3xl mx-auto space-y-8">

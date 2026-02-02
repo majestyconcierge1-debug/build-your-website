@@ -98,7 +98,7 @@ const About = () => {
               alt="About Majesty Concierge"
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-purple/70" />
+            <div className="absolute inset-0 bg-black/40" />
           </div>
           <div className="relative z-10 container px-4 md:px-6 text-center text-foreground">
             <div className="inline-flex items-center gap-3 text-accent tracking-[0.3em] text-sm font-medium uppercase mb-6">
@@ -270,7 +270,7 @@ const About = () => {
                         alt={activity.title[language]}
                         className="w-full h-full object-cover"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-purple/50 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                       <div className="absolute bottom-4 left-4">
                         <div className="w-12 h-12 bg-accent flex items-center justify-center">
                           <activity.icon className="w-6 h-6 text-accent-foreground" />
