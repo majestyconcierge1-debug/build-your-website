@@ -19,7 +19,8 @@ import {
   Menu,
   X,
   Wine,
-  History
+  History,
+  Newspaper
 } from "lucide-react";
 import { Tables } from "@/integrations/supabase/types";
 import { countries, citiesByCountry, propertyTypes } from "@/data/locations";
@@ -27,6 +28,7 @@ import ImageUploader from "@/components/admin/ImageUploader";
 import AmenitySelector from "@/components/admin/AmenitySelector";
 import ExperiencesTab from "@/components/admin/ExperiencesTab";
 import ActivityLogTab from "@/components/admin/ActivityLogTab";
+import NewsTab from "@/components/admin/NewsTab";
 
 type Property = Tables<"properties">;
 type Inquiry = Tables<"inquiries">;
@@ -57,7 +59,7 @@ const Admin = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   
-  const [activeTab, setActiveTab] = useState<"properties" | "experiences" | "users" | "inquiries" | "activity">("properties");
+  const [activeTab, setActiveTab] = useState<"properties" | "experiences" | "news" | "users" | "inquiries" | "activity">("properties");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [properties, setProperties] = useState<Property[]>([]);
   const [inquiries, setInquiries] = useState<Inquiry[]>([]);
@@ -311,6 +313,7 @@ const Admin = () => {
   const tabs = [
     { id: "properties", label: "Properties", icon: Home, access: true },
     { id: "experiences", label: "Experiences", icon: Wine, access: true },
+    { id: "news", label: "News", icon: Newspaper, access: isAdmin },
     { id: "users", label: "Users", icon: Users, access: isAdmin },
     { id: "inquiries", label: "Inquiries", icon: MessageSquare, access: isAdmin },
     { id: "activity", label: "Activity Log", icon: History, access: isAdmin },
@@ -674,6 +677,9 @@ const Admin = () => {
 
         {/* Experiences Tab */}
         {activeTab === "experiences" && <ExperiencesTab />}
+
+        {/* News Tab */}
+        {activeTab === "news" && isAdmin && <NewsTab />}
 
         {/* Activity Log Tab */}
         {activeTab === "activity" && isAdmin && <ActivityLogTab />}
