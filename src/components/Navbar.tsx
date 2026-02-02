@@ -1,13 +1,16 @@
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown, LogIn, LayoutDashboard } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { useAuth } from "@/hooks/useAuth";
 import LanguageSwitcher from "./LanguageSwitcher";
+import { Button } from "./ui/button";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [propertyDropdownOpen, setPropertyDropdownOpen] = useState(false);
   const { t, language } = useLanguage();
+  const { user, hasStaffAccess, loading } = useAuth();
 
   const propertyManagementCountries = [
     { label: "France", href: "/property-management/france" },
@@ -100,6 +103,23 @@ const Navbar = () => {
           {/* Desktop CTA */}
           <div className="hidden lg:flex items-center gap-4">
             <LanguageSwitcher />
+            {!loading && (
+              hasStaffAccess ? (
+                <Link to="/admin">
+                  <Button variant="luxury" size="sm" className="gap-2">
+                    <LayoutDashboard className="w-4 h-4" />
+                    {language === 'fr' ? 'Tableau de Bord' : 'Dashboard'}
+                  </Button>
+                </Link>
+              ) : (
+                <Link to="/auth">
+                  <Button variant="luxury-outline" size="sm" className="gap-2">
+                    <LogIn className="w-4 h-4" />
+                    {language === 'fr' ? 'Connexion' : 'Login'}
+                  </Button>
+                </Link>
+              )
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -164,6 +184,23 @@ const Navbar = () => {
                 <div className="flex justify-center pb-3">
                   <LanguageSwitcher />
                 </div>
+                {!loading && (
+                  hasStaffAccess ? (
+                    <Link to="/admin" onClick={() => setIsOpen(false)}>
+                      <Button variant="luxury" className="w-full gap-2">
+                        <LayoutDashboard className="w-4 h-4" />
+                        {language === 'fr' ? 'Tableau de Bord' : 'Dashboard'}
+                      </Button>
+                    </Link>
+                  ) : (
+                    <Link to="/auth" onClick={() => setIsOpen(false)}>
+                      <Button variant="luxury-outline" className="w-full gap-2">
+                        <LogIn className="w-4 h-4" />
+                        {language === 'fr' ? 'Connexion' : 'Login'}
+                      </Button>
+                    </Link>
+                  )
+                )}
               </div>
             </div>
           </div>
