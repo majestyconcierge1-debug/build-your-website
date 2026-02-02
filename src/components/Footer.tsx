@@ -117,12 +117,12 @@ const Footer = () => {
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-4 h-4 text-accent flex-shrink-0" />
-                <a
-                  href="mailto:majestyconcierge1@gmail.com"
+                <Link
+                  to="/contact"
                   className="text-sm text-muted-foreground hover:text-accent transition-colors"
                 >
-                  majestyconcierge1@gmail.com
-                </a>
+                  {language === 'fr' ? 'Envoyez-nous un message' : 'Send us a message'}
+                </Link>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="w-4 h-4 text-accent flex-shrink-0" />
