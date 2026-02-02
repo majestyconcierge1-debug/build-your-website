@@ -37,7 +37,7 @@ const Contact = () => {
               alt="Office"
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-purple/80" />
+            <div className="absolute inset-0 bg-black/40" />
           </div>
           <div className="relative z-10 container px-4 md:px-6 text-center">
             <div className="inline-flex items-center gap-3 text-accent tracking-[0.3em] text-sm font-medium uppercase mb-6">

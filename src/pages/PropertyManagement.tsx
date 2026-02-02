@@ -241,7 +241,7 @@ const PropertyManagement = () => {
               alt="Luxury Property Management"
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-purple/70" />
+            <div className="absolute inset-0 bg-black/40" />
           </div>
           <div className="relative z-10 container px-4 md:px-6 text-center text-foreground">
             <div className="inline-flex items-center gap-3 text-accent tracking-[0.3em] text-sm font-medium uppercase mb-6">
@@ -286,7 +286,7 @@ const PropertyManagement = () => {
                       alt={country.name[language]}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
-                    <div className="absolute inset-0 bg-purple/50 group-hover:bg-purple/70 transition-colors" />
+                    <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-colors" />
                     <div className="absolute inset-0 flex items-center justify-center">
                       <span className="text-foreground font-display text-lg">{country.name[language]}</span>
                     </div>
@@ -328,7 +328,7 @@ const PropertyManagement = () => {
                       alt={service.title[language]}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-purple/80 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                     <div className="absolute bottom-4 left-4">
                       <div className="w-10 h-10 bg-accent/20 backdrop-blur-sm flex items-center justify-center rounded">
                         <service.icon className="w-5 h-5 text-accent" />

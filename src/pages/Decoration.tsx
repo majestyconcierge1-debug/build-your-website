@@ -175,7 +175,7 @@ const Decoration = () => {
               alt="Luxury Interior Design"
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-purple/70" />
+            <div className="absolute inset-0 bg-black/40" />
           </div>
           <div className="relative z-10 container px-4 md:px-6 text-center text-foreground">
             <div className="inline-flex items-center gap-3 text-accent tracking-[0.3em] text-sm font-medium uppercase mb-6">
@@ -228,7 +228,7 @@ const Decoration = () => {
                           alt={`Before - ${service.title[language]}`}
                           className="w-full h-full object-cover"
                         />
-                        <div className="absolute bottom-2 left-2 bg-purple/80 text-white text-xs px-2 py-1 rounded">
+                        <div className="absolute bottom-2 left-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
                           {language === 'fr' ? 'Avant' : 'Before'}
                         </div>
                       </div>
@@ -294,7 +294,7 @@ const Decoration = () => {
                       alt={service.title[language]}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-purple/80 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                     <div className="absolute bottom-4 left-4">
                       <div className="w-12 h-12 bg-accent/20 backdrop-blur-sm flex items-center justify-center rounded">
                         <service.icon className="w-6 h-6 text-accent" />
