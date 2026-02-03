@@ -190,6 +190,9 @@ export type Database = {
           name: string
           phone: string | null
           property_id: string | null
+          read_at: string | null
+          replied_at: string | null
+          reply_message: string | null
           status: string | null
         }
         Insert: {
@@ -200,6 +203,9 @@ export type Database = {
           name: string
           phone?: string | null
           property_id?: string | null
+          read_at?: string | null
+          replied_at?: string | null
+          reply_message?: string | null
           status?: string | null
         }
         Update: {
@@ -210,6 +216,9 @@ export type Database = {
           name?: string
           phone?: string | null
           property_id?: string | null
+          read_at?: string | null
+          replied_at?: string | null
+          reply_message?: string | null
           status?: string | null
         }
         Relationships: [
@@ -395,6 +404,38 @@ export type Database = {
           },
           {
             foreignKeyName: "property_amenities_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      property_views: {
+        Row: {
+          id: string
+          ip_address: string | null
+          property_id: string | null
+          user_agent: string | null
+          viewed_at: string
+        }
+        Insert: {
+          id?: string
+          ip_address?: string | null
+          property_id?: string | null
+          user_agent?: string | null
+          viewed_at?: string
+        }
+        Update: {
+          id?: string
+          ip_address?: string | null
+          property_id?: string | null
+          user_agent?: string | null
+          viewed_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "property_views_property_id_fkey"
             columns: ["property_id"]
             isOneToOne: false
             referencedRelation: "properties"

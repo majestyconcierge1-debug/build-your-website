@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
+import { Badge } from "@/components/ui/badge";
 import { 
   Home, 
   Users, 
@@ -20,7 +21,10 @@ import {
   X,
   Wine,
   History,
-  Newspaper
+  Newspaper,
+  BarChart3,
+  Settings,
+  UserCircle
 } from "lucide-react";
 import { Tables } from "@/integrations/supabase/types";
 import { countries, citiesByCountry, propertyTypes } from "@/data/locations";
@@ -29,10 +33,12 @@ import AmenitySelector from "@/components/admin/AmenitySelector";
 import ExperiencesTab from "@/components/admin/ExperiencesTab";
 import ActivityLogTab from "@/components/admin/ActivityLogTab";
 import NewsTab from "@/components/admin/NewsTab";
+import MessagesTab from "@/components/admin/MessagesTab";
+import StatisticsTab from "@/components/admin/StatisticsTab";
+import SettingsTab from "@/components/admin/SettingsTab";
+import ClientsTab from "@/components/admin/ClientsTab";
 
 type Property = Tables<"properties">;
-type Inquiry = Tables<"inquiries">;
-type Profile = Tables<"profiles">;
 
 type PropertyType = "apartment_rent" | "apartment_sale" | "penthouse_rent" | "penthouse_sale" | "villa_rent" | "villa_sale" | "riad_rent" | "riad_sale";
 
@@ -59,17 +65,16 @@ const Admin = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   
-  const [activeTab, setActiveTab] = useState<"properties" | "experiences" | "news" | "users" | "inquiries" | "activity">("properties");
+  const [activeTab, setActiveTab] = useState<"dashboard" | "properties" | "experiences" | "news" | "clients" | "messages" | "settings" | "activity">("dashboard");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [properties, setProperties] = useState<Property[]>([]);
-  const [inquiries, setInquiries] = useState<Inquiry[]>([]);
-  const [profiles, setProfiles] = useState<Profile[]>([]);
   const [showPropertyForm, setShowPropertyForm] = useState(false);
   const [editingProperty, setEditingProperty] = useState<Property | null>(null);
   const [formLoading, setFormLoading] = useState(false);
   const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
   const [propertyImages, setPropertyImages] = useState<string[]>([]);
   const [featuredImage, setFeaturedImage] = useState<string | null>(null);
+  const [unreadMessages, setUnreadMessages] = useState(0);
 
   const [propertyForm, setPropertyForm] = useState({
     title: "",
@@ -109,12 +114,6 @@ const Admin = () => {
     if (activeTab === "properties") {
       const { data } = await supabase.from("properties").select("*").order("created_at", { ascending: false });
       if (data) setProperties(data);
-    } else if (activeTab === "inquiries" && isAdmin) {
-      const { data } = await supabase.from("inquiries").select("*").order("created_at", { ascending: false });
-      if (data) setInquiries(data);
-    } else if (activeTab === "users" && isAdmin) {
-      const { data } = await supabase.from("profiles").select("*").order("created_at", { ascending: false });
-      if (data) setProfiles(data);
     }
   };
 
@@ -283,16 +282,6 @@ const Admin = () => {
     });
   };
 
-  const handleDeleteInquiry = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this inquiry?")) return;
-    
-    const { error } = await supabase.from("inquiries").delete().eq("id", id);
-    if (!error) {
-      toast({ title: "Inquiry deleted" });
-      fetchData();
-    }
-  };
-
   const handleSignOut = async () => {
     await signOut();
     navigate("/");
@@ -311,12 +300,14 @@ const Admin = () => {
   }
 
   const tabs = [
-    { id: "properties", label: "Properties", icon: Home, access: true },
-    { id: "experiences", label: "Experiences", icon: Wine, access: true },
-    { id: "news", label: "News", icon: Newspaper, access: isAdmin },
-    { id: "users", label: "Users", icon: Users, access: isAdmin },
-    { id: "inquiries", label: "Inquiries", icon: MessageSquare, access: isAdmin },
-    { id: "activity", label: "Activity Log", icon: History, access: isAdmin },
+    { id: "dashboard", label: "Dashboard", icon: BarChart3, access: true },
+    { id: "properties", label: "Annonces", icon: Home, access: true },
+    { id: "experiences", label: "Expériences", icon: Wine, access: true },
+    { id: "clients", label: "Clients", icon: UserCircle, access: isAdmin },
+    { id: "messages", label: "Messages", icon: MessageSquare, access: true, badge: unreadMessages },
+    { id: "news", label: "Actualités", icon: Newspaper, access: isAdmin },
+    { id: "activity", label: "Journal", icon: History, access: isAdmin },
+    { id: "settings", label: "Paramètres", icon: Settings, access: isAdmin },
   ].filter(tab => tab.access);
 
   return (
@@ -348,6 +339,11 @@ const Admin = () => {
             >
               <item.icon className="w-5 h-5" />
               {item.label}
+              {item.badge && item.badge > 0 && (
+                <Badge variant="destructive" className="ml-auto text-xs px-1.5 py-0.5 min-w-[20px] h-5">
+                  {item.badge}
+                </Badge>
+              )}
             </button>
           ))}
         </nav>
@@ -681,68 +677,22 @@ const Admin = () => {
         {/* News Tab */}
         {activeTab === "news" && isAdmin && <NewsTab />}
 
+        {/* Dashboard/Statistics Tab */}
+        {activeTab === "dashboard" && <StatisticsTab />}
+
+        {/* Messages Tab */}
+        {activeTab === "messages" && (
+          <MessagesTab onUnreadCountChange={setUnreadMessages} />
+        )}
+
+        {/* Clients Tab */}
+        {activeTab === "clients" && isAdmin && <ClientsTab />}
+
         {/* Activity Log Tab */}
         {activeTab === "activity" && isAdmin && <ActivityLogTab />}
 
-        {/* Users Tab */}
-        {activeTab === "users" && isAdmin && (
-          <div>
-            <h2 className="font-display text-2xl lg:text-3xl mb-8 hidden lg:block">Users</h2>
-            <div className="space-y-4">
-              {profiles.map((profile) => (
-                <div key={profile.id} className="bg-card border border-border p-4 flex items-center justify-between rounded-lg">
-                  <div>
-                    <h4 className="font-display">{profile.full_name || "Unnamed User"}</h4>
-                    <p className="text-sm text-muted-foreground">{profile.email}</p>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      Joined: {new Date(profile.created_at).toLocaleDateString()}
-                    </p>
-                  </div>
-                </div>
-              ))}
-              {profiles.length === 0 && (
-                <p className="text-center py-8 text-muted-foreground">No users found.</p>
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* Inquiries Tab */}
-        {activeTab === "inquiries" && isAdmin && (
-          <div>
-            <h2 className="font-display text-2xl lg:text-3xl mb-8 hidden lg:block">Inquiries</h2>
-            <div className="space-y-4">
-              {inquiries.map((inquiry) => (
-                <div key={inquiry.id} className="bg-card border border-border p-4 rounded-lg">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <h4 className="font-display">{inquiry.name}</h4>
-                        <span className={`text-xs px-2 py-0.5 rounded ${
-                          inquiry.status === 'new' ? 'bg-accent text-accent-foreground' : 'bg-secondary'
-                        }`}>
-                          {inquiry.status}
-                        </span>
-                      </div>
-                      <p className="text-sm text-muted-foreground mb-1">{inquiry.email}</p>
-                      {inquiry.phone && <p className="text-sm text-muted-foreground mb-2">{inquiry.phone}</p>}
-                      <p className="text-sm">{inquiry.message}</p>
-                      <p className="text-xs text-muted-foreground mt-2">
-                        {new Date(inquiry.created_at).toLocaleString()}
-                      </p>
-                    </div>
-                    <Button variant="ghost" size="icon" onClick={() => handleDeleteInquiry(inquiry.id)}>
-                      <Trash2 className="w-4 h-4 text-destructive" />
-                    </Button>
-                  </div>
-                </div>
-              ))}
-              {inquiries.length === 0 && (
-                <p className="text-center py-8 text-muted-foreground">No inquiries yet.</p>
-              )}
-            </div>
-          </div>
-        )}
+        {/* Settings Tab */}
+        {activeTab === "settings" && isAdmin && <SettingsTab />}
       </main>
     </div>
   );
