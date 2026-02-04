@@ -89,15 +89,16 @@ const News = () => {
 
   const fetchComments = async (articleId: string) => {
     try {
+      // Use the comments_public view to prevent email exposure
+      // Query the view using rpc or direct fetch since view isn't in generated types
       const { data, error } = await supabase
-        .from("comments")
+        .from("comments_public" as any)
         .select("id, author_name, content, created_at")
         .eq("article_id", articleId)
-        .eq("approved", true)
         .order("created_at", { ascending: false });
 
       if (error) throw error;
-      setComments(data || []);
+      setComments((data as unknown as Comment[]) || []);
     } catch (error) {
       console.error("Error fetching comments:", error);
     }
