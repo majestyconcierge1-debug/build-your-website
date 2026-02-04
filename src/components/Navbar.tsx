@@ -105,19 +105,19 @@ const Navbar = () => {
             <LanguageSwitcher />
             {!loading && (
               hasStaffAccess ? (
-                <Link to="/admin">
-                  <Button variant="luxury" size="sm" className="gap-2">
+                <Button asChild variant="luxury" size="sm" className="gap-2">
+                  <Link to="/admin">
                     <LayoutDashboard className="w-4 h-4" />
                     {language === 'fr' ? 'Tableau de Bord' : 'Dashboard'}
-                  </Button>
-                </Link>
+                  </Link>
+                </Button>
               ) : (
-                <Link to="/auth">
-                  <Button variant="luxury-outline" size="sm" className="gap-2">
+                <Button asChild variant="luxury-outline" size="sm" className="gap-2">
+                  <Link to="/auth">
                     <LogIn className="w-4 h-4" />
                     {language === 'fr' ? 'Connexion' : 'Login'}
-                  </Button>
-                </Link>
+                  </Link>
+                </Button>
               )
             )}
           </div>
@@ -186,19 +186,29 @@ const Navbar = () => {
                 </div>
                 {!loading && (
                   hasStaffAccess ? (
-                    <Link to="/admin" onClick={() => setIsOpen(false)}>
-                      <Button variant="luxury" className="w-full gap-2">
+                    <Button
+                      asChild
+                      variant="luxury"
+                      className="w-full gap-2"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      <Link to="/admin">
                         <LayoutDashboard className="w-4 h-4" />
                         {language === 'fr' ? 'Tableau de Bord' : 'Dashboard'}
-                      </Button>
-                    </Link>
+                      </Link>
+                    </Button>
                   ) : (
-                    <Link to="/auth" onClick={() => setIsOpen(false)}>
-                      <Button variant="luxury-outline" className="w-full gap-2">
+                    <Button
+                      asChild
+                      variant="luxury-outline"
+                      className="w-full gap-2"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      <Link to="/auth">
                         <LogIn className="w-4 h-4" />
                         {language === 'fr' ? 'Connexion' : 'Login'}
-                      </Button>
-                    </Link>
+                      </Link>
+                    </Button>
                   )
                 )}
               </div>
