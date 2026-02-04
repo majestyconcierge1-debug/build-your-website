@@ -43,7 +43,10 @@ const App = () => (
               <Route path="/contact" element={<Contact />} />
               <Route path="/properties" element={<Properties />} />
               <Route path="/admin" element={<Admin />} />
+              {/* Aliases for common admin URLs */}
+              <Route path="/dashboard" element={<Admin />} />
               <Route path="/auth" element={<Auth />} />
+              <Route path="/login" element={<Auth />} />
               <Route path="/property-management" element={<PropertyManagement />} />
               <Route path="/property-management/france" element={<PropertyManagementFrance />} />
               <Route path="/property-management/italy" element={<PropertyManagementItaly />} />

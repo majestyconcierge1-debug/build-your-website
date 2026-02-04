@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -31,6 +31,24 @@ const Auth = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [passwordErrors, setPasswordErrors] = useState<string[]>([]);
 
+  const resolveRedirectAfterLogin = useCallback(async (userId: string) => {
+    const { data, error } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", userId)
+      .maybeSingle();
+
+    if (error) throw error;
+    const role = data?.role;
+
+    if (role === "admin" || role === "assistant") {
+      navigate("/admin");
+      return;
+    }
+
+    navigate("/");
+  }, [navigate]);
+
   // Password validation rules display
   const passwordRules = [
     { rule: "At least 8 characters", test: (p: string) => p.length >= 8 },
@@ -42,13 +60,18 @@ const Auth = () => {
 
   useEffect(() => {
     const checkUser = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        navigate("/");
+      try {
+        const { data: { session }, error } = await supabase.auth.getSession();
+        if (error) throw error;
+        if (session?.user?.id) {
+          await resolveRedirectAfterLogin(session.user.id);
+        }
+      } catch {
+        // no-op: stay on the auth page
       }
     };
     checkUser();
-  }, [navigate]);
+  }, [resolveRedirectAfterLogin]);
 
   const validatePassword = (pass: string) => {
     try {
@@ -92,7 +115,7 @@ const Auth = () => {
             : "Please check your email to confirm your account.",
         });
       } else {
-        const { error } = await supabase.auth.signInWithPassword({
+        const { data, error } = await supabase.auth.signInWithPassword({
           email,
           password,
         });
@@ -102,7 +125,13 @@ const Auth = () => {
         toast({
           title: language === 'fr' ? "Connexion réussie!" : "Signed in successfully!",
         });
-        navigate("/");
+
+        const userId = data.user?.id ?? data.session?.user?.id;
+        if (userId) {
+          await resolveRedirectAfterLogin(userId);
+        } else {
+          navigate("/");
+        }
       }
     } catch (error: any) {
       toast({
@@ -258,11 +287,11 @@ const Auth = () => {
                     {passwordRules.map((rule, index) => (
                       <div key={index} className="flex items-center gap-2">
                         {rule.test(password) ? (
-                          <Check className="w-4 h-4 text-green-500" />
+                          <Check className="w-4 h-4 text-accent" />
                         ) : (
                           <X className="w-4 h-4 text-destructive" />
                         )}
-                        <span className={rule.test(password) ? "text-green-500" : "text-muted-foreground"}>
+                        <span className={rule.test(password) ? "text-accent" : "text-muted-foreground"}>
                           {rule.rule}
                         </span>
                       </div>
