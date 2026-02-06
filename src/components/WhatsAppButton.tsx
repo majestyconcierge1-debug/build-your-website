@@ -15,7 +15,7 @@ const WhatsAppButton = () => {
 
   const handleSend = () => {
     const textToSend = message.trim() || defaultMessage;
-    const whatsappUrl = `https://wa.me/33767781026?text=${encodeURIComponent(textToSend)}`;
+    const whatsappUrl = `https://wa.me/15052212757?text=${encodeURIComponent(textToSend)}`;
     window.open(whatsappUrl, '_blank');
     setMessage("");
     setIsOpen(false);

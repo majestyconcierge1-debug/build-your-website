@@ -8,7 +8,7 @@ import { useLanguage } from "@/i18n/LanguageContext";
 const Contact = () => {
   const { t, language } = useLanguage();
 
-  const whatsappUrl = `https://wa.me/33767781026?text=${encodeURIComponent(
+  const whatsappUrl = `https://wa.me/15052212757?text=${encodeURIComponent(
     language === 'fr' 
       ? 'Bonjour, je souhaite plus d\'informations sur vos services.'
       : 'Hello, I would like more information about your services.'
@@ -91,10 +91,10 @@ const Contact = () => {
                     <div>
                       <h3 className="font-display text-lg mb-1">{language === 'fr' ? 'Téléphone' : 'Phone'}</h3>
                       <a 
-                        href="tel:+33767781026"
+                        href="tel:+15052212757"
                         className="text-muted-foreground hover:text-accent transition-colors"
                       >
-                        +33 7 67 78 10 26
+                        +1 505 221 2757
                       </a>
                     </div>
                   </div>
