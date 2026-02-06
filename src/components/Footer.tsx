@@ -32,10 +32,10 @@ const Footer = () => {
     : ["Private Concierge", "Luxury Travel", "Real Estate", "Property Management", "Corporate Services"];
 
   const socialLinks = [
-    { icon: Facebook, href: "#", label: "Facebook" },
-    { icon: Instagram, href: "#", label: "Instagram" },
-    { icon: TikTokIcon, href: "#", label: "TikTok" },
-    { icon: Youtube, href: "#", label: "YouTube" },
+    { icon: Facebook, href: "https://www.facebook.com/profile.php?id=majestyconcierge", label: "Facebook" },
+    { icon: Instagram, href: "https://www.instagram.com/majestyconcierge1/", label: "Instagram" },
+    { icon: TikTokIcon, href: "https://www.tiktok.com/@majestyconcierge", label: "TikTok" },
+    { icon: Youtube, href: "https://www.youtube.com/@majestyconcierge", label: "YouTube" },
   ];
 
   return (
@@ -127,10 +127,10 @@ const Footer = () => {
               <li className="flex items-center gap-3">
                 <Phone className="w-4 h-4 text-accent flex-shrink-0" />
                 <a
-                  href="tel:+33767781026"
+                  href="tel:+15052212757"
                   className="text-sm text-muted-foreground hover:text-accent transition-colors"
                 >
-                  +33 7 67 78 10 26
+                  +1 505 221 2757
                 </a>
               </li>
             </ul>

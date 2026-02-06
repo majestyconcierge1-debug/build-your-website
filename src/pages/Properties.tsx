@@ -183,7 +183,7 @@ const Properties = () => {
     const message = language === 'fr'
       ? `Bonjour, je suis intéressé(e) par la propriété: ${property.title} à ${property.city}. Pouvez-vous me donner plus d'informations?`
       : `Hello, I am interested in the property: ${property.title} in ${property.city}. Can you give me more information?`;
-    return `https://wa.me/33767781026?text=${encodeURIComponent(message)}`;
+    return `https://wa.me/15052212757?text=${encodeURIComponent(message)}`;
   };
 
   const getGoogleMapsUrl = (property: Property) => {
@@ -377,7 +377,7 @@ const Properties = () => {
 
                           {/* Quick Actions */}
                           <div className="flex gap-2 pt-2">
-                            <a href="tel:+33767781026" className="flex-1">
+                            <a href="tel:+15052212757" className="flex-1">
                               <Button variant="outline" size="sm" className="w-full gap-1">
                                 <Phone className="w-3 h-3" />
                               </Button>
@@ -536,7 +536,7 @@ const Properties = () => {
 
                 {/* Contact CTAs */}
                 <div className="flex flex-wrap gap-4">
-                  <a href="tel:+33767781026">
+                  <a href="tel:+15052212757">
                     <Button variant="luxury" size="lg" className="gap-2">
                       <Phone className="w-5 h-5" />
                       {t.properties.callAgency}
