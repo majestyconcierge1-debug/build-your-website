@@ -59,18 +59,35 @@ const Auth = () => {
   ];
 
   useEffect(() => {
+    let isMounted = true;
+
+    // Listen for auth state changes (e.g. after login)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (!isMounted) return;
+      if (event === 'SIGNED_IN' && session?.user?.id) {
+        setTimeout(() => {
+          if (isMounted) resolveRedirectAfterLogin(session.user.id);
+        }, 0);
+      }
+    });
+
+    // Check existing session on mount
     const checkUser = async () => {
       try {
         const { data: { session }, error } = await supabase.auth.getSession();
-        if (error) throw error;
-        if (session?.user?.id) {
-          await resolveRedirectAfterLogin(session.user.id);
-        }
+        if (error || !session?.user?.id) return; // Stay on auth page
+        if (!isMounted) return;
+        await resolveRedirectAfterLogin(session.user.id);
       } catch {
         // no-op: stay on the auth page
       }
     };
     checkUser();
+
+    return () => {
+      isMounted = false;
+      subscription.unsubscribe();
+    };
   }, [resolveRedirectAfterLogin]);
 
   const validatePassword = (pass: string) => {
