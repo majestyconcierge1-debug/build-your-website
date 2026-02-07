@@ -27,9 +27,13 @@ const Footer = () => {
     { label: t.nav.contact, href: "/contact" },
   ];
 
-  const services = language === 'fr' 
-    ? ["Conciergerie Privée", "Voyages de Luxe", "Immobilier", "Gestion Locative", "Services Entreprise"]
-    : ["Private Concierge", "Luxury Travel", "Real Estate", "Property Management", "Corporate Services"];
+  const services = [
+    { label: language === 'fr' ? "Conciergerie Privée" : "Private Concierge", href: "/concierge" },
+    { label: language === 'fr' ? "Voyages de Luxe" : "Luxury Travel", href: "/services" },
+    { label: language === 'fr' ? "Immobilier" : "Real Estate", href: "/properties" },
+    { label: language === 'fr' ? "Gestion Locative" : "Property Management", href: "/property-management" },
+    { label: language === 'fr' ? "Services Entreprise" : "Corporate Services", href: "/services" },
+  ];
 
   const socialLinks = [
     { icon: Facebook, href: "https://www.facebook.com/profile.php?id=majestyconcierge", label: "Facebook" },
@@ -98,8 +102,13 @@ const Footer = () => {
             <h4 className="font-display text-lg mb-6 text-accent">{t.footer.services}</h4>
             <ul className="space-y-3">
               {services.map((service) => (
-                <li key={service}>
-                  <span className="text-sm text-muted-foreground">{service}</span>
+                <li key={service.href + service.label}>
+                  <Link
+                    to={service.href}
+                    className="text-sm text-muted-foreground hover:text-accent transition-colors"
+                  >
+                    {service.label}
+                  </Link>
                 </li>
               ))}
             </ul>

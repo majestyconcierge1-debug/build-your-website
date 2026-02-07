@@ -12,12 +12,13 @@ const Navbar = () => {
   const { user, hasStaffAccess, loading } = useAuth();
 
   const navLinks = [
-    { label: language === 'fr' ? 'Conciergerie' : 'Concierge Services', href: "/" },
-    { label: language === 'fr' ? 'Propriétés' : 'Properties', href: "/properties" },
-    { label: t.nav.propertyManagement, href: "/property-management" },
-    { label: t.nav.decoration, href: "/decoration" },
-    { label: language === 'fr' ? 'À Propos' : 'About Us', href: "/about" },
-    { label: t.nav.contact, href: "/contact" },
+    { label: (language === 'fr' ? 'CONCIERGERIE' : 'CONCIERGE SERVICES'), href: "/" },
+    { label: (language === 'fr' ? 'PROPRIÉTÉS' : 'PROPERTIES'), href: "/properties" },
+    { label: t.nav.propertyManagement.toUpperCase(), href: "/property-management" },
+    { label: t.nav.decoration.toUpperCase(), href: "/decoration" },
+    { label: (language === 'fr' ? 'ACTUALITÉS' : 'NEWS'), href: "/news" },
+    { label: (language === 'fr' ? 'À PROPOS' : 'ABOUT US'), href: "/about" },
+    { label: t.nav.contact.toUpperCase(), href: "/contact" },
   ];
 
   return (
