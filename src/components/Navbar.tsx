@@ -13,6 +13,7 @@ const Navbar = () => {
 
   const navLinks = [
     { label: (language === 'fr' ? 'CONCIERGERIE' : 'CONCIERGE SERVICES'), href: "/" },
+    { label: (language === 'fr' ? 'EXPÉRIENCES' : 'EXPERIENCES'), href: "/experiences" },
     { label: (language === 'fr' ? 'PROPRIÉTÉS' : 'PROPERTIES'), href: "/properties" },
     { label: t.nav.propertyManagement.toUpperCase(), href: "/property-management" },
     { label: t.nav.decoration.toUpperCase(), href: "/decoration" },

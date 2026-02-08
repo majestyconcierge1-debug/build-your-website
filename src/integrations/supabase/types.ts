@@ -120,64 +120,133 @@ export type Database = {
       }
       experiences: {
         Row: {
+          accessibility: boolean | null
+          best_seller: boolean | null
+          cancellation_policy: string | null
+          cancellation_policy_fr: string | null
           category: string
           city: string | null
           country: string | null
           created_at: string
+          currency: string | null
           description: string | null
           description_fr: string | null
           duration: string | null
+          end_point: string | null
           featured: boolean | null
           featured_image: string | null
           id: string
           images: string[] | null
+          included: string | null
+          included_fr: string | null
+          languages: string[] | null
+          level: string | null
           location: string | null
+          max_participants: number | null
+          meta_description: string | null
+          meta_title: string | null
+          not_included: string | null
+          not_included_fr: string | null
           price: number | null
           price_type: string | null
           published: boolean | null
+          short_description: string | null
+          short_description_fr: string | null
+          slug: string | null
+          sort_order: number | null
+          start_point: string | null
           title: string
           title_fr: string | null
           updated_at: string
+          video_url: string | null
+          what_to_bring: string | null
+          what_to_bring_fr: string | null
         }
         Insert: {
+          accessibility?: boolean | null
+          best_seller?: boolean | null
+          cancellation_policy?: string | null
+          cancellation_policy_fr?: string | null
           category?: string
           city?: string | null
           country?: string | null
           created_at?: string
+          currency?: string | null
           description?: string | null
           description_fr?: string | null
           duration?: string | null
+          end_point?: string | null
           featured?: boolean | null
           featured_image?: string | null
           id?: string
           images?: string[] | null
+          included?: string | null
+          included_fr?: string | null
+          languages?: string[] | null
+          level?: string | null
           location?: string | null
+          max_participants?: number | null
+          meta_description?: string | null
+          meta_title?: string | null
+          not_included?: string | null
+          not_included_fr?: string | null
           price?: number | null
           price_type?: string | null
           published?: boolean | null
+          short_description?: string | null
+          short_description_fr?: string | null
+          slug?: string | null
+          sort_order?: number | null
+          start_point?: string | null
           title: string
           title_fr?: string | null
           updated_at?: string
+          video_url?: string | null
+          what_to_bring?: string | null
+          what_to_bring_fr?: string | null
         }
         Update: {
+          accessibility?: boolean | null
+          best_seller?: boolean | null
+          cancellation_policy?: string | null
+          cancellation_policy_fr?: string | null
           category?: string
           city?: string | null
           country?: string | null
           created_at?: string
+          currency?: string | null
           description?: string | null
           description_fr?: string | null
           duration?: string | null
+          end_point?: string | null
           featured?: boolean | null
           featured_image?: string | null
           id?: string
           images?: string[] | null
+          included?: string | null
+          included_fr?: string | null
+          languages?: string[] | null
+          level?: string | null
           location?: string | null
+          max_participants?: number | null
+          meta_description?: string | null
+          meta_title?: string | null
+          not_included?: string | null
+          not_included_fr?: string | null
           price?: number | null
           price_type?: string | null
           published?: boolean | null
+          short_description?: string | null
+          short_description_fr?: string | null
+          slug?: string | null
+          sort_order?: number | null
+          start_point?: string | null
           title?: string
           title_fr?: string | null
           updated_at?: string
+          video_url?: string | null
+          what_to_bring?: string | null
+          what_to_bring_fr?: string | null
         }
         Relationships: []
       }

@@ -21,6 +21,8 @@ import PropertyManagementAlgeria from "./pages/PropertyManagementAlgeria";
 import Decoration from "./pages/Decoration";
 import Concierge from "./pages/Concierge";
 import News from "./pages/News";
+import Experiences from "./pages/Experiences";
+import ExperienceDetail from "./pages/ExperienceDetail";
 import NotFound from "./pages/NotFound";
 import WhatsAppButton from "./components/WhatsAppButton";
 import CookieConsent from "./components/CookieConsent";
@@ -55,6 +57,8 @@ const App = () => (
               <Route path="/property-management/algeria" element={<PropertyManagementAlgeria />} />
               <Route path="/decoration" element={<Decoration />} />
               <Route path="/concierge" element={<Concierge />} />
+              <Route path="/experiences" element={<Experiences />} />
+              <Route path="/experiences/:slug" element={<ExperienceDetail />} />
               <Route path="/news" element={<News />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
