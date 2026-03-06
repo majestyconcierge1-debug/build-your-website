@@ -9,6 +9,8 @@ import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import { Plus, Edit, Trash2, Search, Star, Eye, EyeOff, Award } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import SingleImageUploader from "@/components/admin/SingleImageUploader";
+import ImageUploader from "@/components/admin/ImageUploader";
 
 const experienceCategories = [
   { value: "city_tour", label: "City Tour" },

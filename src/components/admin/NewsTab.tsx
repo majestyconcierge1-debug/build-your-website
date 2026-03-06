@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import { Plus, Edit, Trash2, Eye, EyeOff, Newspaper } from "lucide-react";
+import SingleImageUploader from "@/components/admin/SingleImageUploader";
 import { Tables } from "@/integrations/supabase/types";
 
 type NewsArticle = Tables<"news_articles">;
@@ -271,14 +272,12 @@ const NewsTab = () => {
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label>Featured Image URL</Label>
-                <Input
-                  value={form.image_url}
-                  onChange={(e) => setForm({ ...form, image_url: e.target.value })}
-                  placeholder="https://..."
-                />
-              </div>
+              <SingleImageUploader
+                imageUrl={form.image_url}
+                onImageChange={(url) => setForm({ ...form, image_url: url })}
+                bucket="blog-images"
+                label="Featured Image"
+              />
 
               <label className="flex items-center gap-2">
                 <input
