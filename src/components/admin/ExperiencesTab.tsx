@@ -62,7 +62,7 @@ interface ExperienceForm {
   accessibility: boolean; featured: boolean; published: boolean;
   best_seller: boolean; sort_order: string;
   slug: string; meta_title: string; meta_description: string;
-  images: string; featured_image: string;
+  images: string[]; featured_image: string;
 }
 
 const defaultForm: ExperienceForm = {
@@ -81,7 +81,7 @@ const defaultForm: ExperienceForm = {
   accessibility: false, featured: false, published: true,
   best_seller: false, sort_order: "0",
   slug: "", meta_title: "", meta_description: "",
-  images: "", featured_image: "",
+  images: [], featured_image: "",
 };
 
 const ExperiencesTab = () => {
@@ -136,7 +136,7 @@ const ExperiencesTab = () => {
       published: form.published, best_seller: form.best_seller,
       sort_order: parseInt(form.sort_order) || 0,
       slug, meta_title: form.meta_title || null, meta_description: form.meta_description || null,
-      images: form.images ? form.images.split(",").map(s => s.trim()) : [],
+      images: form.images.length > 0 ? form.images : [],
       featured_image: form.featured_image || null,
     };
 
@@ -191,7 +191,7 @@ const ExperiencesTab = () => {
       published: exp.published ?? true, best_seller: exp.best_seller || false,
       sort_order: exp.sort_order?.toString() || "0",
       slug: exp.slug || "", meta_title: exp.meta_title || "", meta_description: exp.meta_description || "",
-      images: exp.images?.join(", ") || "", featured_image: exp.featured_image || "",
+      images: exp.images || [], featured_image: exp.featured_image || "",
     });
     setFormStep(0);
     setShowForm(true);
@@ -364,8 +364,19 @@ const ExperiencesTab = () => {
               {/* Step 3: Media & SEO */}
               {formStep === 3 && (
                 <>
-                  <div className="space-y-2"><Label>Cover Image URL</Label><Input value={form.featured_image} onChange={(e) => setForm({ ...form, featured_image: e.target.value })} /></div>
-                  <div className="space-y-2"><Label>Gallery Image URLs (comma-separated)</Label><Input value={form.images} onChange={(e) => setForm({ ...form, images: e.target.value })} /></div>
+                  <SingleImageUploader
+                    imageUrl={form.featured_image}
+                    onImageChange={(url) => setForm({ ...form, featured_image: url })}
+                    bucket="blog-images"
+                    label="Cover Image"
+                  />
+                  <ImageUploader
+                    images={form.images}
+                    featuredImage={form.featured_image}
+                    onImagesChange={(imgs) => setForm({ ...form, images: imgs })}
+                    onFeaturedImageChange={(url) => setForm({ ...form, featured_image: url || "" })}
+                    maxImages={10}
+                  />
                   <div className="space-y-2"><Label>Video URL (YouTube/Vimeo)</Label><Input value={form.video_url} onChange={(e) => setForm({ ...form, video_url: e.target.value })} placeholder="https://youtube.com/watch?v=..." /></div>
                   <hr className="border-border" />
                   <div className="space-y-2"><Label>URL Slug</Label><Input value={form.slug} onChange={(e) => setForm({ ...form, slug: e.target.value })} placeholder={form.title ? generateSlug(form.title) : "auto-generated-from-title"} /></div>
