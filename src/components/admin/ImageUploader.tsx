@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Upload, X, Star, Image } from "lucide-react";
+import { Upload, X, Star, Image, Camera } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface ImageUploaderProps {
@@ -22,6 +22,7 @@ const ImageUploader = ({
   const { toast } = useToast();
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const cameraInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -142,7 +143,17 @@ const ImageUploader = ({
             disabled={uploading || images.length >= maxImages}
           >
             <Upload className="w-4 h-4 mr-2" />
-            {uploading ? "Uploading..." : "Upload"}
+            {uploading ? "Uploading..." : "Gallery / Files"}
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => cameraInputRef.current?.click()}
+            disabled={uploading || images.length >= maxImages}
+          >
+            <Camera className="w-4 h-4 mr-2" />
+            Camera
           </Button>
         </div>
       </div>
@@ -152,6 +163,14 @@ const ImageUploader = ({
         type="file"
         accept="image/*"
         multiple
+        onChange={handleFileUpload}
+        className="hidden"
+      />
+      <input
+        ref={cameraInputRef}
+        type="file"
+        accept="image/*"
+        capture="environment"
         onChange={handleFileUpload}
         className="hidden"
       />
