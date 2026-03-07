@@ -5,7 +5,7 @@ import { useLanguage } from "@/i18n/LanguageContext";
 import { useAuth } from "@/hooks/useAuth";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { Button } from "./ui/button";
-import peaceLogo from "@/assets/peace-homes-logo.jpg";
+import peaceLogo from "@/assets/peace-homes-logo.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,10 +32,10 @@ const Navbar = () => {
             <img src={peaceLogo} alt="Peace Homes Development" className="h-12 w-12 rounded-full object-cover" />
             <div className="flex flex-col">
               <span className="font-display text-xl md:text-2xl font-medium tracking-wide text-accent">
-                Peace Homes
+                Majesty
               </span>
               <span className="text-[9px] md:text-[10px] tracking-[0.3em] text-muted-foreground uppercase -mt-1">
-                Development
+                Concierge
               </span>
             </div>
           </Link>
