@@ -8,33 +8,33 @@
 
 @layer base {
   :root {
-    /* Royal Purple & Gold Color Palette */
-    --background: 263 24% 39%; /* #5D4A7A - Royal Purple */
-    --foreground: 45 50% 96%; /* Cream White */
+    /* Deep Emerald Green & Gold Color Palette */
+    --background: 163 60% 15%; /* #0F3D36 - Deep Emerald */
+    --foreground: 0 0% 100%; /* White */
 
-    --card: 263 24% 32%;
-    --card-foreground: 45 50% 96%;
+    --card: 164 62% 10%; /* #0A2A26 - Dark Green */
+    --card-foreground: 0 0% 100%;
 
-    --popover: 263 24% 28%;
-    --popover-foreground: 45 50% 96%;
+    --popover: 164 62% 10%;
+    --popover-foreground: 0 0% 100%;
 
-    --primary: 43 76% 52%; /* #D4AF37 - Light Gold */
-    --primary-foreground: 263 24% 20%;
+    --primary: 43 76% 52%; /* #D4AF37 - Luxury Gold */
+    --primary-foreground: 164 62% 10%;
 
-    --secondary: 263 20% 35%;
-    --secondary-foreground: 45 50% 96%;
+    --secondary: 163 55% 19%; /* #154F46 - Lighter Green */
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 263 20% 40%;
-    --muted-foreground: 263 15% 70%;
+    --muted: 163 50% 20%;
+    --muted-foreground: 0 0% 90%; /* #E6E6E6 */
 
-    --accent: 43 76% 52%; /* Light Gold */
-    --accent-foreground: 263 24% 20%;
+    --accent: 43 76% 52%; /* Luxury Gold */
+    --accent-foreground: 164 62% 10%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 45 50% 96%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 263 18% 45%;
-    --input: 263 18% 45%;
+    --border: 163 40% 25%;
+    --input: 163 40% 25%;
     --ring: 43 76% 52%;
 
     --radius: 0.25rem;
@@ -43,57 +43,57 @@
     --gold: 43 76% 52%;
     --gold-light: 43 76% 65%;
     --gold-dark: 43 76% 40%;
-    --purple: 263 24% 39%;
-    --purple-light: 263 24% 48%;
-    --purple-dark: 263 28% 25%;
-    --cream: 45 50% 96%;
+    --emerald: 163 60% 15%;
+    --emerald-light: 163 55% 19%;
+    --emerald-dark: 164 62% 10%;
+    --cream: 0 0% 100%;
 
-    --sidebar-background: 263 28% 20%;
-    --sidebar-foreground: 45 50% 96%;
+    --sidebar-background: 164 62% 10%;
+    --sidebar-foreground: 0 0% 100%;
     --sidebar-primary: 43 76% 52%;
-    --sidebar-primary-foreground: 263 28% 20%;
-    --sidebar-accent: 263 20% 35%;
-    --sidebar-accent-foreground: 45 50% 96%;
-    --sidebar-border: 263 18% 35%;
+    --sidebar-primary-foreground: 164 62% 10%;
+    --sidebar-accent: 163 55% 19%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 163 40% 20%;
     --sidebar-ring: 43 76% 52%;
   }
 
   .light {
-    --background: 45 30% 97%;
-    --foreground: 263 24% 39%;
+    --background: 150 20% 96%;
+    --foreground: 164 62% 10%;
 
     --card: 0 0% 100%;
-    --card-foreground: 263 24% 39%;
+    --card-foreground: 164 62% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 263 24% 39%;
+    --popover-foreground: 164 62% 10%;
 
-    --primary: 263 24% 39%; /* Royal Purple as primary in light mode */
-    --primary-foreground: 45 50% 96%;
+    --primary: 163 60% 15%; /* Deep Emerald as primary in light mode */
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 45 25% 92%;
-    --secondary-foreground: 263 24% 39%;
+    --secondary: 150 15% 92%;
+    --secondary-foreground: 164 62% 10%;
 
-    --muted: 45 20% 90%;
-    --muted-foreground: 263 20% 50%;
+    --muted: 150 10% 90%;
+    --muted-foreground: 163 30% 40%;
 
     --accent: 43 76% 52%; /* Gold stays gold */
-    --accent-foreground: 263 24% 39%;
+    --accent-foreground: 164 62% 10%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 45 50% 96%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 263 15% 85%;
-    --input: 263 15% 85%;
+    --border: 163 15% 85%;
+    --input: 163 15% 85%;
     --ring: 43 76% 52%;
 
-    --sidebar-background: 263 24% 39%;
-    --sidebar-foreground: 45 50% 96%;
+    --sidebar-background: 163 60% 15%;
+    --sidebar-foreground: 0 0% 100%;
     --sidebar-primary: 43 76% 52%;
-    --sidebar-primary-foreground: 263 28% 20%;
-    --sidebar-accent: 263 20% 35%;
-    --sidebar-accent-foreground: 45 50% 96%;
-    --sidebar-border: 263 18% 35%;
+    --sidebar-primary-foreground: 164 62% 10%;
+    --sidebar-accent: 163 55% 19%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 163 40% 20%;
     --sidebar-ring: 43 76% 52%;
   }
 }
@@ -140,20 +140,20 @@
     border-color: hsl(var(--accent));
   }
 
-  .text-purple {
-    color: hsl(var(--purple));
+  .text-emerald-brand {
+    color: hsl(var(--emerald));
   }
 
-  .bg-purple {
-    background-color: hsl(var(--purple));
+  .bg-emerald-brand {
+    background-color: hsl(var(--emerald));
   }
 
   .luxury-gradient {
     background: linear-gradient(135deg, hsl(var(--accent)) 0%, hsl(var(--gold-dark)) 100%);
   }
 
-  .purple-gradient {
-    background: linear-gradient(180deg, hsl(var(--purple)) 0%, hsl(var(--purple-dark)) 100%);
+  .emerald-gradient {
+    background: linear-gradient(180deg, hsl(var(--emerald)) 0%, hsl(var(--emerald-dark)) 100%);
   }
 
   .glass-effect {
@@ -257,7 +257,7 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: hsl(var(--purple-dark));
+  background: hsl(var(--emerald-dark));
 }
 
 ::-webkit-scrollbar-thumb {
