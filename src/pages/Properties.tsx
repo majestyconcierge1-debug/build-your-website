@@ -300,7 +300,7 @@ const Properties = () => {
                               {property.status === "for_rent" ? t.search.forRent : t.search.forSale}
                             </span>
                             {property.featured && (
-                              <span className="px-2 py-1 bg-purple text-white text-xs font-medium rounded-full flex items-center gap-1">
+                              <span className="px-2 py-1 bg-emerald-dark text-white text-xs font-medium rounded-full flex items-center gap-1">
                                 <Star className="w-3 h-3 fill-current" />
                                 {t.properties.featured}
                               </span>

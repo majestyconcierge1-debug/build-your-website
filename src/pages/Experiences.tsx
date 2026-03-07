@@ -61,7 +61,7 @@ const Experiences = () => {
       <Navbar />
       <main className="pt-20">
         {/* Hero */}
-        <section className="relative py-20 bg-purple text-foreground">
+        <section className="relative py-20 bg-emerald-dark text-foreground">
           <div className="container px-4 md:px-6 text-center">
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl mb-4">
               {language === "fr" ? "Expériences Exclusives" : "Exclusive Experiences"}

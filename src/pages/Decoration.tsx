@@ -314,7 +314,7 @@ const Decoration = () => {
         </section>
 
         {/* CTA Section */}
-        <section className="py-24 bg-purple text-foreground">
+        <section className="py-24 bg-emerald-dark text-foreground">
           <div className="container px-4 md:px-6 text-center">
             <h2 className="font-display text-3xl md:text-5xl mb-6">
               {language === 'fr' ? 'Prêt à Transformer Votre Espace ?' : 'Ready to Transform Your Space?'}

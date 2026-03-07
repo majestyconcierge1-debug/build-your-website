@@ -74,7 +74,7 @@ const ActivityLogTab = () => {
     if (action.includes("create") || action.includes("add")) return "text-green-600 bg-green-100";
     if (action.includes("update") || action.includes("edit")) return "text-blue-600 bg-blue-100";
     if (action.includes("delete") || action.includes("remove")) return "text-red-600 bg-red-100";
-    return "text-purple-600 bg-purple-100";
+    return "text-emerald-600 bg-emerald-100";
   };
 
   if (loading) {
@@ -153,8 +153,8 @@ const ActivityLogTab = () => {
                   <tr key={log.id} className="hover:bg-secondary/30 transition-colors">
                     <td className="p-4">
                       <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-full bg-purple/20 flex items-center justify-center">
-                          <User className="w-4 h-4 text-purple" />
+                        <div className="w-8 h-8 rounded-full bg-secondary/40 flex items-center justify-center">
+                          <User className="w-4 h-4 text-accent" />
                         </div>
                         <div>
                           <p className="font-medium text-sm">{log.user_name || "Unknown"}</p>

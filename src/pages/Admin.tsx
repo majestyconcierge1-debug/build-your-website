@@ -313,7 +313,7 @@ const Admin = () => {
   return (
     <div className="min-h-screen bg-background flex">
       {/* Sidebar */}
-      <aside className={`fixed lg:static inset-y-0 left-0 z-50 w-64 bg-purple text-foreground transform ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0 transition-transform duration-300`}>
+      <aside className={`fixed lg:static inset-y-0 left-0 z-50 w-64 bg-emerald-dark text-foreground transform ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0 transition-transform duration-300`}>
         <div className="p-6 border-b border-border/20">
           <div className="flex items-center justify-between">
             <div>

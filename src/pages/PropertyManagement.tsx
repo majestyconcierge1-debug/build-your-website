@@ -348,7 +348,7 @@ const PropertyManagement = () => {
         </section>
 
         {/* CTA */}
-        <section className="py-24 bg-purple text-foreground">
+        <section className="py-24 bg-emerald-dark text-foreground">
           <div className="container px-4 md:px-6 text-center">
             <h2 className="font-display text-3xl md:text-5xl mb-6">
               {language === 'fr' ? 'Confiez-nous Votre Propriété' : 'Trust Us With Your Property'}
