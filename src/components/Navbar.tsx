@@ -5,6 +5,7 @@ import { useLanguage } from "@/i18n/LanguageContext";
 import { useAuth } from "@/hooks/useAuth";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { Button } from "./ui/button";
+import peaceLogo from "@/assets/peace-homes-logo.jpg";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,12 +29,13 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3">
+            <img src={peaceLogo} alt="Peace Homes Development" className="h-12 w-12 rounded-full object-cover" />
             <div className="flex flex-col">
-              <span className="font-display text-2xl md:text-3xl font-medium tracking-wide text-accent">
-                Majesty
+              <span className="font-display text-xl md:text-2xl font-medium tracking-wide text-accent">
+                Peace Homes
               </span>
-              <span className="text-[10px] md:text-xs tracking-[0.3em] text-muted-foreground uppercase -mt-1">
-                Concierge
+              <span className="text-[9px] md:text-[10px] tracking-[0.3em] text-muted-foreground uppercase -mt-1">
+                Development
               </span>
             </div>
           </Link>
