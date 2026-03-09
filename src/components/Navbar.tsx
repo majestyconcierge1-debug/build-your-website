@@ -29,7 +29,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center">
-            <img src={majestyLogo} alt="Majesty Concierge" c28 md:h-32h-14 md:h-16 object-contain" />
+            <img src={majestyLogo} alt="Majesty Concierge" className="h-28 md:h-32 object-contain" />
           </Link>
 
           {/* Desktop Navigation */}
