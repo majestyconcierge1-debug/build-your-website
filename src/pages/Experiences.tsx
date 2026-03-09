@@ -59,7 +59,7 @@ const Experiences = () => {
         <meta name="description" content={language === "fr" ? "Découvrez nos expériences et tours de luxe exclusifs" : "Discover our exclusive luxury experiences and tours"} />
       </Helmet>
       <Navbar />
-      <main className="pt-20">
+      <main className="pt-24">
         {/* Hero */}
         <section className="relative py-20 bg-emerald-dark text-foreground">
           <div className="container px-4 md:px-6 text-center">

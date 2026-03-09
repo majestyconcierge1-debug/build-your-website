@@ -47,7 +47,7 @@ const PropertyManagementTunisia = () => {
       </Helmet>
       
       <Navbar />
-      <main className="pt-20">
+      <main className="pt-24">
         <section className="relative">
           <LuxuryCarousel slides={carouselSlides} language={language} height="h-[70vh]" interval={5000} />
           <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">

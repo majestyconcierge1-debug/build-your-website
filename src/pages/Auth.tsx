@@ -165,7 +165,7 @@ const Auth = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <main className="pt-20 pb-12">
+      <main className="pt-24 pb-12">
         <div className="container px-4 md:px-6 max-w-md mx-auto py-16">
           <div className="bg-card border border-border p-8 luxury-shadow">
             {/* Header */}
