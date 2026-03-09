@@ -5,7 +5,7 @@ import { useLanguage } from "@/i18n/LanguageContext";
 import { useAuth } from "@/hooks/useAuth";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { Button } from "./ui/button";
-import majestyLogo from "@/assets/majesty-logo-transparent.png";
+import majestyLogo from "@/assets/majesty-logo-transparent.pnansparent.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,7 +29,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center">
-            <img src={majestyLogo} alt="Majesty Concierge" className="h-14 md:h-16 object-contain" />
+            <img src={majestyLogo} alt="Majesty Concierge" c28 md:h-32h-14 md:h-16 object-contain" />
           </Link>
 
           {/* Desktop Navigation */}
