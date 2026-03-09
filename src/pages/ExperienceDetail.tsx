@@ -69,7 +69,7 @@ const ExperienceDetail = () => {
         <meta name="description" content={experience.meta_description || t(experience.short_description, experience.short_description_fr) || ""} />
       </Helmet>
       <Navbar />
-      <main className="pt-20">
+      <main className="pt-24">
         {/* Breadcrumb */}
         <div className="container px-4 md:px-6 py-4">
           <Link to="/experiences" className="text-sm text-muted-foreground hover:text-accent transition-colors flex items-center gap-1">

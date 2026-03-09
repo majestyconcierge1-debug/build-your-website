@@ -47,7 +47,7 @@ const PropertyManagementFrance = () => {
       </Helmet>
       
       <Navbar />
-      <main className="pt-20">
+      <main className="pt-24">
         {/* Hero */}
         <section className="relative">
           <LuxuryCarousel slides={carouselSlides} language={language} height="h-[70vh]" interval={5000} />
