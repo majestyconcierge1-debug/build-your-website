@@ -5,7 +5,7 @@ import { useLanguage } from "@/i18n/LanguageContext";
 import { useAuth } from "@/hooks/useAuth";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { Button } from "./ui/button";
-import majestyLogo from "@/assets/majesty-logo-transparent.pnansparent.png";
+import majestyLogo from "@/assets/majesty-logo-transparent.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
