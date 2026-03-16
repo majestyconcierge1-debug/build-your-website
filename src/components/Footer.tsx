@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { Facebook, Instagram, Youtube } from "lucide-react";
+import majestyLogo from "@/assets/majesty-logo-transparent.png";
 
 // TikTok icon (not in lucide-react)
 const TikTokIcon = () => (
@@ -48,14 +49,13 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Brand */}
           <div className="space-y-6">
-            <div className="flex flex-col">
-              <span className="font-display text-3xl font-medium tracking-wide text-accent">
-                Majesty
-              </span>
-              <span className="text-xs tracking-[0.3em] text-muted-foreground uppercase">
-                Concierge
-              </span>
-            </div>
+            <Link to="/" className="block w-fit">
+              <img
+                src={majestyLogo}
+                alt="Majesty Concierge"
+                className="h-24 w-auto object-contain md:h-28"
+              />
+            </Link>
             <p className="text-muted-foreground text-sm leading-relaxed">
               {t.footer.aboutText}
             </p>
