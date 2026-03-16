@@ -166,7 +166,7 @@ const Decoration = () => {
       </Helmet>
 
       <Navbar />
-      <main className="pt-32">
+      <main className="pt-24">
         {/* Hero Section */}
         <section className="relative py-32 overflow-hidden">
           <div className="absolute inset-0">
