@@ -33,7 +33,7 @@ const ExperienceDetail = () => {
   if (loading) return (
     <>
       <Navbar />
-      <div className="pt-24 min-h-screen flex items-center justify-center"><p className="text-muted-foreground">Loading...</p></div>
+      <div className="pt-32 min-h-screen flex items-center justify-center"><p className="text-muted-foreground">Loading...</p></div>
     </>
   );
 
