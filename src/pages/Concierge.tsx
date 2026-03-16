@@ -156,7 +156,7 @@ const Concierge = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <main className="pt-32">
+      <main className="pt-24">
         {/* Hero Carousel */}
         <section className="relative">
           <LuxuryCarousel
