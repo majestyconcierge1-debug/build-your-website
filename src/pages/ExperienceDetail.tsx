@@ -40,7 +40,7 @@ const ExperienceDetail = () => {
   if (!experience) return (
     <>
       <Navbar />
-      <div className="pt-24 min-h-screen flex flex-col items-center justify-center gap-4">
+      <div className="pt-32 min-h-screen flex flex-col items-center justify-center gap-4">
         <p className="text-muted-foreground text-lg">{language === "fr" ? "Expérience introuvable" : "Experience not found"}</p>
         <Button asChild variant="luxury"><Link to="/experiences">← {language === "fr" ? "Retour" : "Back"}</Link></Button>
       </div>
