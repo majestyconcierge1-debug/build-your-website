@@ -24,12 +24,12 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-background border-b border-border">
       <div className="container px-4 md:px-6">
-        <div className="flex items-center justify-between h-24">
+        <div className="flex items-center justify-between h-32 md:h-36">
           {/* Logo */}
           <Link to="/" className="flex items-center">
-            <img src={majestyLogo} alt="Majesty Concierge" className="h-20 md:h-24 object-contain" />
+            <img src={majestyLogo} alt="Majesty Concierge" className="h-[7.5rem] w-auto object-contain md:h-[9rem]" />
           </Link>
 
           {/* Desktop Navigation */}
