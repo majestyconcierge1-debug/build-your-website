@@ -44,7 +44,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-emerald-dark text-foreground py-20">
+    <footer className="bg-background text-foreground py-20">
       <div className="container px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Brand */}
@@ -53,7 +53,7 @@ const Footer = () => {
               <img
                 src={majestyLogo}
                 alt="Majesty Concierge"
-                className="h-24 w-auto object-contain md:h-28"
+                className="h-36 w-auto object-contain md:h-[10.5rem]"
               />
             </Link>
             <p className="text-muted-foreground text-sm leading-relaxed">
